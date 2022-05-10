@@ -1,0 +1,68 @@
+
+
+<body>
+    <img class="imgFondo" src="assets/logos/consultorio.jpg" alt="poseidon-layout" />
+    <div class="login">
+        <div class="Formlogin">
+
+            <div class="card">
+                <img src="assets/logos/diente.logo.png" alt="poseidon-layout" />
+                <br>
+                <div class="tituloLogin">
+                    <h2>¡Bienvenido!</h2>
+                    <form [formGroup]="loginForm">
+                        <div class="formulario">
+                            <input type="email" pInputText formControlName="usuario" placeholder="ingrese usuario" class="p-inputtext-sm">
+
+                            <span class="p-input-icon-right" style="width: 100%;">
+                                <i toggle="#password-field"
+                                [class]="cambiarIconEye"
+                                (click)="viewPassword(clave)"> </i>
+                                <input type="password"  #passwordField pInputText placeholder="ingrese contraseña" formControlName="password"  #clave class="p-inputtext-sm">
+                            </span>
+
+                            <div style="text-align: left; margin: 2%;">
+                                    <p-checkbox
+                                        [(ngModel)]="checkRecordarLogin"
+                                        [binary]="true"
+                                        label="Recordar usuario"
+                                        formControlName="rememberMe" >
+                                    </p-checkbox>
+                            </div>
+                            <div style="text-align: right;">
+                                <button
+                                    class="p-button-sm botonIngresar"
+                                    pButton
+                                    type="button"
+                                    icon="pi pi-arrow-right"
+                                    iconPos="right"
+                                    label="INGRESAR"
+                                    [disabled]="loginForm.invalid"
+                                    (click)="onLogin()">
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+
+                <!-- <div style="text-align: center;">
+                    <span> ¿olvidó su contraseña? </span>
+                </div>
+                 -->
+
+                 <div>
+                    <p>¿No tienes cuenta? <a href="#" routerLink="/auth/registro"> <b>Crear usuario aquí. </b> </a></p>
+                </div>
+
+                
+            </div>
+
+            <!-- <div class="textoRegistrar">
+                <p>¿No tienes cuenta? <a href="#" routerLink="/auth/registro"> <b class="textoRegistrar">Registrate aquí. </b> </a></p>
+            </div> -->
+
+        </div>
+    </div>
+</body>
+

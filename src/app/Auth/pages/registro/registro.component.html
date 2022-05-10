@@ -1,0 +1,106 @@
+ 
+  <body> 
+    <img class="imgFondo" src="assets/logos/consultorio.jpg" alt="poseidon-layout" /> 
+    <div class="login">
+        <div class="Formlogin">
+           
+            <div class="card">  
+                <h2>¡Crear usuario!</h2> 
+                 
+                <br>  
+                <div class="tituloLogin"> 
+                    
+                    <form [formGroup]="Form">   
+                        <div class="formulario">  
+                            <strong>Dni:</strong>
+                            <input type="text" pInputText minlength="8" maxlength="8" placeholder="ingresar dni" formControlName="dni" class="p-inputtext-sm">  
+                     
+                            <strong>Nombres:</strong>
+                            <input type="text" pInputText placeholder="ingresar nombres" formControlName="nombres" class="p-inputtext-sm">  
+
+                            <strong>Apellidos:</strong> 
+                            <div class="p-inputgroup">                  
+                                <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
+                                <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
+                            </div>
+                            
+                            <strong>Fec. Nacimiento:</strong>     
+                            <p-calendar   
+                                readonlyInput="true"
+                                [showIcon]="true"
+                                dateFormat="dd/mm/yy"
+                                formControlName="fechaNacimiento"
+                            ></p-calendar> 
+
+                            <strong>Sexo:</strong>
+                            <p-dropdown
+                                class="extender"
+                                [options]="arraySexo" 
+                                formControlName="sexo"
+                                placeholder="selecciona"
+                                optionLabel="nombre"
+                                [showClear]="true"
+                            ></p-dropdown>
+
+                            <strong>Direccion:</strong>
+                            <input type="text" pInputText minlength="1" maxlength="250"  placeholder="ingresar direccion" formControlName="direccion" class="p-inputtext-sm">  
+
+                            <strong>Correo:</strong>
+                            <input type="text" pInputText placeholder="ingresar correo" formControlName="correo" class="p-inputtext-sm">  
+
+                            <strong>Telefono:</strong>
+                            <input type="text" pInputText minlength="9" maxlength="9" placeholder="ingresar telefono" formControlName="telefono" class="p-inputtext-sm">  
+                             
+                            <strong>Contraseña:</strong>
+                            <div>
+                                <span class="p-input-icon-right" style="width: 100%;">
+                                    <i toggle="#password-field"
+                                    [class]="cambiarIconEye"
+                                    (click)="viewPassword(clave)"> </i>
+                                    <input type="password" style="display: grid" minlength="2" maxlength="6"  #passwordField pInputText placeholder="ingrese contraseña" formControlName="password"  #clave class="p-inputtext-sm">    
+                                </span>
+                            </div>  
+                        </div>
+
+                        <br>
+
+                        <div class="botones">
+                           
+                            <button   
+                                class="p-button-sm p-button-rounded mx-2"
+                                pButton
+                                type="button"
+                                icon="pi pi-times-circle"
+                                label="Cancelar" 
+                                style=" background-color: white; color: black;"
+                                (click)="onCancelar()">  
+                            </button>  
+
+                            <button  
+                                class="p-button-sm p-button-rounded mx-2"
+                                pButton
+                                type="button"
+                                style="margin-left: 1%;"
+                                [disabled]="Form.invalid"
+                                label="GUARDAR"
+                                (click)="onGuardar()"
+                                icon="pi pi-check-circle">  
+                            </button>  
+    
+                        </div> 
+                        
+                    </form>  
+                </div>
+                 
+                 
+          
+                
+            </div>
+     
+    
+        </div> 
+    </div>
+</body>
+
+ 
+ 

@@ -1,0 +1,42 @@
+<div class="layout-topbar">
+    <div class="layout-topbar-wrapper">
+        <div class="layout-topbar-left">
+            <div class="layout-topbar-logo" style="display: flex;align-items: center;">
+                <img id="app-logo"
+                     src="assets/logos/diente.logo.png" 
+                     alt="poseidon-layout"> 
+                     <h5 style="margin-left:2%;"> <strong>  CITAS ODONTOLOGICAS </strong></h5>
+            </div>
+        </div>
+
+        <div class="topBarHome layout-topbar-right">
+            <a class="menu-button" href="#" (click)="appMain.onMenuButtonClick($event)">
+                <i class="pi pi-bars"></i> 
+            </a> 
+            <ul class="layout-topbar-actions"> 
+                <li #profile class="topbar-item user-profile"
+                    [ngClass]="{'active-topmenuitem':appMain.activeTopbarItem === profile}">
+                    <a href="#" (click)="appMain.onTopbarItemClick($event,profile)">
+                        <img class="profile-image" src="assets/layout/images/avatar-profile.png" alt="demo">
+                        <div class="profile-info">
+                            <h6>{{usuariologeado}}</h6>
+                            <span>{{rolUsuario}}</span>
+                        </div>
+                    </a>
+
+                    <ul class="fadeInDown">  
+                        <li role="menuitem">
+                            <a  (click)="onLogout()">
+                                <i class="pi pi-power-off"></i>
+                                <h6>Cerrar Sesión</h6>
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div> 
+
+

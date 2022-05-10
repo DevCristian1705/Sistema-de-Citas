@@ -1,0 +1,53 @@
+.filtro{
+    text-align: center;
+    width: 80%;
+    
+    @media (max-width : 700px){
+        width: 100%;
+   }
+}
+
+.Alinear{
+    align-items: center;
+}
+
+.formulario{
+    display: grid;
+    grid-gap: 1rem;
+    gap: 1rem;
+    grid-auto-rows: auto;
+    grid-template-columns: 8rem 1fr;   
+    align-items: center;
+    @media (max-width: 800px) {  
+       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    }
+ }
+
+ .formulario2{
+    display: grid;
+    grid-gap: 1rem;
+    gap: 1rem;
+    grid-auto-rows: auto;
+    grid-template-columns:  8rem 8rem 2rem 5rem;
+    align-items: center;
+    @media (max-width: 800px) {  
+       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    }
+ }
+
+ 
+::ng-deep  .SizeModal{
+    width: 60vw !important;
+    
+    @media (max-width:700px) {
+        width: 90vw !important;
+    }
+
+}
+
+.ElegirCita{
+    display: grid;
+    grid-template-columns:  1fr 1fr 1fr;
+    align-items: center;
+    gap : 2% ;
+}
