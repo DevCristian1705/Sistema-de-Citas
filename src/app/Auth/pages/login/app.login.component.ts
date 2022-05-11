@@ -54,6 +54,15 @@ export class AppLoginComponent {
     }
     this.apiService.login(data).subscribe((resp) => {
       if(resp){
+        let DatosUsuario :any = resp.user;
+        const SaveDatos : any = {
+          usuario: DatosUsuario.nombres,
+          apePaterno: DatosUsuario.apellidoPaterno,
+          correo : DatosUsuario.correo,
+          isadmin : DatosUsuario.isadmin,
+          idusuario : DatosUsuario.idusuario
+        }
+        sessionStorage.setItem('datosUsuario', JSON.stringify(SaveDatos)); 
         localStorage.setItem('rememberMe', dataForm.rememberMe ? dataForm.rememberMe : null); 
         this.swal.mensajeExito('Bienvenido al Sistema!!.')
         setTimeout(() => {
@@ -72,3 +81,15 @@ export class AppLoginComponent {
   }
   
 }
+
+
+
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 

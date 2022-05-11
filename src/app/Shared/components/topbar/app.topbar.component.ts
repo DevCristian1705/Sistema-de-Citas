@@ -12,10 +12,10 @@ export class AppTopBarComponent {
  
   @Output() mPredeterminado: EventEmitter<any> = new EventEmitter<any>(); 
  
-  usuariologeado: string ="Cristian";
-  rolUsuario : string= "";
+  usuariologeado: string ="Usuario";
+  rolUsuario : string= "Cliente";
   dataDesencryptada : any;
-
+ 
   constructor(
       public appMain: HomeComponent,  
       private loginService : LoginService, 
@@ -24,10 +24,12 @@ export class AppTopBarComponent {
   } 
 
   onPintarDatos(){  
-    if(this.usuariologeado.length > 20){
-        this.usuariologeado = this.usuariologeado.slice(0,-10) + '...';
-    } 
-    this.rolUsuario = 'Administrador';
+    this.dataDesencryptada = JSON.parse(sessionStorage.getItem('datosUsuario')) 
+    console.log(this.dataDesencryptada);
+    this.usuariologeado = this.dataDesencryptada.usuario + ' ' +this.dataDesencryptada.apePaterno
+    if(this.dataDesencryptada.isadmin === true){
+      this.rolUsuario = 'Administrador';
+    }
   }
  
   onLogout(){

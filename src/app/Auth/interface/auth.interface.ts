@@ -1,14 +1,23 @@
 export interface IAuth{
     usuario: string, 
     password : string,
-    token? : string
+    token? : string,
+    user?: string
 }
 
+
 export interface IUsuario {
-    nombreusuario: string,
-    contrasena: string,
-    email: string,
-    nombreapellidos: string,
-    nombreorganizacion: string
+    idusuario : number,
+    usuario: string
+    nombres: string,
+    apellidoPaterno: string,
+    apellidoMaterno: string, 
+    fechaNacimiento: string, 
+    sexo: string, 
+    direccion: string, 
+    correo: string, 
+    telefono: number, 
+    password: string, 
+    isadmin : number,
 }
  

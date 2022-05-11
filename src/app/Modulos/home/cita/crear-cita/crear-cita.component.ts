@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core'; 
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CalendarOptions } from '@fullcalendar/core';
+import { CalendarContent, CalendarOptions } from '@fullcalendar/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { ConstantesGenerales, InterfaceColumnasGrilla } from 'src/app/Shared/interfaces/shared.interfaces';
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';
@@ -53,14 +53,14 @@ export class CrearCitaComponent implements OnInit {
       { title: 'JUAN', date: '2022-05-10', start: '2022-05-09T09:30:00', end: '2017-05-09T11:30:00'},
       { title: 'CHOO', date: '2022-05-10',start: '2022-05-09T11:30:00', end: '2017-05-09T12:30:00'}
     ], 
-    eventClick: function(arg){
-      this.onLevantarDatos(arg.event)
-    },
-
+    eventClick: this.onLevantarDatos.bind(CalendarContent),
     selectable:true,
   
   };
   
+  dataDesencryptada: any
+
+
   constructor(
     private swal : MensajesSwalService,
     private config : PrimeNGConfig,
@@ -116,8 +116,13 @@ export class CrearCitaComponent implements OnInit {
     ]
   }
 
-  onLevantarDatos(data: any): void{
-    this.datosCitaEditar = data
+  onLevantarDatos(data: any): void{ 
+    console.log('_def',data.event._def);
+    console.log('_instance',data.event._instance.range);
+   // let datos : any = data.el.fcSeg.eventRange.def
+ //   let fechas : any = data.el.fcSeg.eventRange.rango
+ //   console.log(datos);
+ //   this.datosCitaEditar = datos 
     this.modaldatosCitaEditar = true;
   }
 
@@ -127,8 +132,7 @@ export class CrearCitaComponent implements OnInit {
     }
   }
 
-  handleDateClick(arg) { 
-    console.log('click al item',arg);
+  handleDateClick(arg) {  
    this.fechaCitasolicitada = arg.dateStr
    this.modalCita= true;
   }
@@ -189,8 +193,9 @@ export class CrearCitaComponent implements OnInit {
  
   
   onGrabarCita(){   
+    this.dataDesencryptada = JSON.parse(sessionStorage.getItem('datosUsuario')) 
     const nuevaCita = {
-      title: 'Nueva Cita' ,
+      title:this.dataDesencryptada.usuario + ' ' +this.dataDesencryptada.apePaterno ,
       date: this.fechaCitasolicitada,
       start:   this.fechaCitasolicitada +'T'+  this.agregarCitaCalendario.horarioinicio,
       end: this.fechaCitasolicitada +'T'+  this.agregarCitaCalendario.horariofin

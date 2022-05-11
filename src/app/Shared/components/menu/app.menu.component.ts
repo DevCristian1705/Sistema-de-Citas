@@ -27,8 +27,9 @@ export class AppMenuComponent implements OnInit {
           { 
             label: 'Usuario', icon: 'pi pi-fw pi-star-fill',  
             items: [
-                {label: 'Registro de citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/citas']}, 
-                {label: 'Cambio contraseña', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/usuario']}, 
+                {label: 'Registro de citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cita']}, 
+                {label: 'Cambio contraseña', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/medico']}, 
+                {label: 'Registro de Medicos', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/medico']}, 
             ]
           }, 
         //   { 

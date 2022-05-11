@@ -13,7 +13,7 @@
                     <form [formGroup]="Form">   
                         <div class="formulario">  
                             <strong>Dni:</strong>
-                            <input type="text" pInputText minlength="8" maxlength="8" placeholder="ingresar dni" formControlName="dni" class="p-inputtext-sm">  
+                            <input type="text" pInputText minlength="8" maxlength="8" (keypress)="validateFormat($event)" placeholder="ingresar dni" formControlName="usuario" class="p-inputtext-sm">  
                      
                             <strong>Nombres:</strong>
                             <input type="text" pInputText placeholder="ingresar nombres" formControlName="nombres" class="p-inputtext-sm">  
@@ -49,7 +49,7 @@
                             <input type="text" pInputText placeholder="ingresar correo" formControlName="correo" class="p-inputtext-sm">  
 
                             <strong>Telefono:</strong>
-                            <input type="text" pInputText minlength="9" maxlength="9" placeholder="ingresar telefono" formControlName="telefono" class="p-inputtext-sm">  
+                            <input type="text" pInputText minlength="9" maxlength="9" (keypress)="validateFormat($event)" placeholder="ingresar telefono" formControlName="telefono" class="p-inputtext-sm">  
                              
                             <strong>Contraseña:</strong>
                             <div>
