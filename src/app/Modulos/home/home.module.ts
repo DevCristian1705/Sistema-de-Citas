@@ -8,12 +8,13 @@ import { ReactiveFormsModule } from '@angular/forms';
 
 import { CrearCitaComponent } from './cita/crear-cita/crear-cita.component'; 
 import { CrearMedicoComponent } from './medico/crear-medico/crear-medico.component';
+import { CrearHorarioComponent } from './horario/crear-horario/crear-horario.component';
 
 @NgModule({
   declarations: [ 
     HomeComponent,  
     CrearCitaComponent, 
-    CrearMedicoComponent
+    CrearMedicoComponent, CrearHorarioComponent
   ],
   imports: [
     CommonModule,

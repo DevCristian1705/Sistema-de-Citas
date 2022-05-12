@@ -24,14 +24,13 @@
     <br>
 
     <div *ngIf="mostrarCalendario">
-        <full-calendar deepChangeDetection="true"    [options]="calendarOptions"></full-calendar>
+        <full-calendar deepChangeDetection="true" [options]="calendarOptions"></full-calendar>
+ 
     </div>
   
 </div>
 
-
  
-
 <div *ngIf="modalCita">
     <p-dialog header="HORARIOS DISPONIBLE" [(visible)]="modalCita" [modal]="true" [draggable]="false" [resizable]="false" class="SizeModal"> 
         <div class="card">  
@@ -63,8 +62,6 @@
                     <th *ngFor="let col of cols" [pSortableColumn]="col.field"> 
                         {{col.header}}  
                     </th> 
-                    <th>Elegir</th>
-   
                 </tr>
             </ng-template>
             <ng-template pTemplate="body" let-rowData let-col let-rowIndex>
@@ -73,18 +70,13 @@
                         <strong class="p-column-title">{{ col.header | uppercase}}</strong>  
                         {{ rowData[col.field]  }} 
                     <td>   
-                    <p-tableCheckbox [value]="rowData"></p-tableCheckbox>  
                 </tr>
             </ng-template>      
             </p-table> 
         </div>
     </p-dialog> 
 </div>  
-
-
-
-
-
+ 
 <div *ngIf="modalPagarcita">
     <p-dialog header="PAGAR CITA" [(visible)]="modalPagarcita" [modal]="true" [draggable]="false" [resizable]="false"> 
         <div class="card">  
@@ -160,14 +152,16 @@
         </div>
     </p-dialog> 
 </div>  
-
-
-
+ 
 <div *ngIf="modaldatosCitaEditar">
     <p-dialog header="EDITAR CITA" [(visible)]="modaldatosCitaEditar" [modal]="true" [draggable]="false" [resizable]="false"> 
         <div class="card">  
             
-            
+            <h2> HOLA EDITAR CONTENIDO DEL ITEMS</h2>
+            <br>
+            <h3>
+                {{datosCitaEditar.title }}  
+            </h3>
            
         </div>
     </p-dialog> 

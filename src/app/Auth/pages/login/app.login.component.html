@@ -12,7 +12,7 @@
                     <h2>¡Bienvenido!</h2>
                     <form [formGroup]="loginForm">
                         <div class="formulario">
-                            <input type="email" pInputText formControlName="usuario" placeholder="ingrese usuario" class="p-inputtext-sm">
+                            <input type="string" pInputText   minlength="8" maxlength="8" (keypress)="validateFormat($event)" formControlName="usuario" placeholder="ingrese usuario" class="p-inputtext-sm">
 
                             <span class="p-input-icon-right" style="width: 100%;">
                                 <i toggle="#password-field"

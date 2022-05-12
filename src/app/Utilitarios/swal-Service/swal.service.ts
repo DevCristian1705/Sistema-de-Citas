@@ -87,16 +87,16 @@ export class MensajesSwalService {
         }); 
         return promesa;
     }
-    mensajePreguntaCita(mensaje: string): Promise<SweetAlertResult<any>> {
+    mensajePreguntaCita(fecha: any, de: any, hasta : any): Promise<SweetAlertResult<any>> {
         const promesa = new Promise<SweetAlertResult<any>>((resolve, reject) =>
         { Swal.fire({
-            title: 'Confirmación',
-            text: mensaje,
+            title: 'Cita para el '+ fecha,
+            text: 'horario: ' + de +' - ' + hasta,
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
             cancelButtonColor: '#d33',
-            confirmButtonText: 'Aceptar',
+            confirmButtonText: 'Reservar',
             cancelButtonText: 'Cancelar'
           }).then(
               respuesta => {

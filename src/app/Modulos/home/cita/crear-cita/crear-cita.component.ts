@@ -1,10 +1,10 @@
 import { DatePipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core'; 
-import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { CalendarContent, CalendarOptions } from '@fullcalendar/core';
+import { Component, OnInit, ViewChild } from '@angular/core'; 
+import { FormControl, FormGroup, Validators } from '@angular/forms'; 
+import { CalendarContent, CalendarOptions, EventInput } from '@fullcalendar/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { ConstantesGenerales, InterfaceColumnasGrilla } from 'src/app/Shared/interfaces/shared.interfaces';
-import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';
+import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service'; 
 
 @Component({
   selector: 'app-crear-cita',
@@ -32,42 +32,18 @@ export class CrearCitaComponent implements OnInit {
   nuevaCitas :any[] = [];
   cols: InterfaceColumnasGrilla[] = []; 
   precioConsultaSeleccionada: string = "";
-
-
-
-  calendarOptions: CalendarOptions = {
-    initialView: 'dayGridMonth',
-    locale : 'es',
-    headerToolbar: {
-      left: 'prev,next',
-      center: 'title',
-      right: ''
-    },
-    dayPopoverFormat: {
-      month: 'long',
-      day: 'numeric',
-      year: 'numeric',
-    },
-    dateClick: this.handleDateClick.bind(this), 
-    events: [
-      { title: 'JUAN', date: '2022-05-10', start: '2022-05-09T09:30:00', end: '2017-05-09T11:30:00'},
-      { title: 'CHOO', date: '2022-05-10',start: '2022-05-09T11:30:00', end: '2017-05-09T12:30:00'}
-    ], 
-    eventClick: this.onLevantarDatos.bind(CalendarContent),
-    selectable:true,
-  
-  };
-  
+ 
+  calendarOptions: CalendarOptions  
   dataDesencryptada: any
-
-
+  calendarSombreado: any
+ 
   constructor(
     private swal : MensajesSwalService,
     private config : PrimeNGConfig,
     private formatDate : DatePipe
   ){
     this.builform();
-
+    this.configCalendario();
     this.arrayOdontologo = [
       {nombre: 'CRISTIAN', codigo: 1},
       {nombre: 'FRANKLIN', codigo: 2},
@@ -116,13 +92,46 @@ export class CrearCitaComponent implements OnInit {
     ]
   }
 
+  configCalendario(){ 
+    this.calendarOptions = {
+      initialView: 'dayGridMonth',
+      locale : 'es',
+      headerToolbar: {
+        left: 'prev,next',
+        center: 'title',
+        right: ''
+      },
+      dayPopoverFormat: {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      },
+      // COLOR DEL EVENTO ITEMS 
+      dateClick: this.handleDateClick.bind(this), 
+      events: [
+        { title: 'JUAN', date: '2022-05-10', start: '2022-05-09T09:30:00', end: '2022-05-09T11:30:00',  eventStartEditable : true, allDay : false},
+        { title: 'CHOO', date: '2022-05-10',start: '2022-05-09T11:30:00', end: '2022-05-09T12:30:00',  eventStartEditable : false, allDay : false}
+      ], 
+      eventClick: this.onLevantarDatos.bind(this),
+      selectable:false,
+    //  editable: false, 
+      hiddenDays : [0], 
+      validRange : {start: '2022-05-03', end : '2022-05-05' }, 
+      showNonCurrentDates : false,
+      
+  
+    };  
+  }
+ 
+
+
   onLevantarDatos(data: any): void{ 
-    console.log('_def',data.event._def);
-    console.log('_instance',data.event._instance.range);
-   // let datos : any = data.el.fcSeg.eventRange.def
- //   let fechas : any = data.el.fcSeg.eventRange.rango
- //   console.log(datos);
- //   this.datosCitaEditar = datos 
+   // console.log('_def',data.event._def);
+  //  console.log('_instance',data.event._instance.range);
+    let datos : any = data.el.fcSeg.eventRange.def
+    let fechas : any = data.el.fcSeg.eventRange.rango
+    console.log(datos, fechas);
+     this.datosCitaEditar = datos 
     this.modaldatosCitaEditar = true;
   }
 
@@ -133,10 +142,11 @@ export class CrearCitaComponent implements OnInit {
   }
 
   handleDateClick(arg) {  
-   this.fechaCitasolicitada = arg.dateStr
+   this.fechaCitasolicitada = arg.dateStr;
+   this.precioConsultaSeleccionada = null
    this.modalCita= true;
   }
-
+ 
 
   onSeleccionarTipoConsulta(event: any){  
     if(!event.value){
@@ -152,7 +162,8 @@ export class CrearCitaComponent implements OnInit {
       return;
     }
     if(event){ 
-      this.swal.mensajePreguntaCita('Reservar cita para el dia: ' + this.fechaCitasolicitada + ' de ' + event.data.horarioinicio+ ' a ' + event.data.horariofin+ '??'  ).then((response) => {
+      let fechacitaFormat = this.formatDate.transform(this.fechaCitasolicitada, ConstantesGenerales._FORMATO_FECHA_VISTA)
+      this.swal.mensajePreguntaCita(fechacitaFormat,event.data.horarioinicio,event.data.horariofin).then((response) => {
         if (response.isConfirmed) {  
           this.onPagarCita(event.data);
         } 
@@ -208,4 +219,8 @@ export class CrearCitaComponent implements OnInit {
     this.modalCita =false;
     this.modalPagarcita =false; 
   }
+
+
+   
+
 }
