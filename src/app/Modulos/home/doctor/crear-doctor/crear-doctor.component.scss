@@ -1,0 +1,50 @@
+.formulario{
+    display: grid;
+    grid-gap: 1rem;
+    gap: 1rem;
+    grid-auto-rows: auto;
+    grid-template-columns: 10rem 1fr;   
+    align-items: center;
+    @media (max-width: 700px) {  
+       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+    }
+ }
+
+ .formulario2{
+   display: grid;
+   grid-gap: 1rem; 
+   gap: 1rem;
+   grid-auto-rows: auto;
+   grid-template-columns: 10rem 1fr 6rem 1fr;
+   align-items: center;
+   margin: 1% 0% 1% 0%;
+   @media (max-width: 700px) {  
+      margin: 2% 0% 2% 0%;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+   }
+}
+
+
+.formulario3{
+   display: grid;
+   grid-gap: 1rem; 
+   gap: 1rem;
+   grid-auto-rows: auto;
+   grid-template-columns: 10rem 1fr 12rem 1fr;
+   align-items: center;
+   margin: 1% 0% 1% 0%;
+   @media (max-width: 700px) {  
+      margin: 2% 0% 2% 0%;
+      grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+   }
+}
+
+::ng-deep .p-input-icon-right {
+   position: relative;
+   display: grid !important;
+}
+
+ ::ng-deep .p-calendar {  
+   height: 31px; 
+  }
+ 

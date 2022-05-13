@@ -1,4 +1,4 @@
-import {NgModule} from '@angular/core';
+import {LOCALE_ID, NgModule} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {BrowserModule} from '@angular/platform-browser';
@@ -10,6 +10,11 @@ import { MenuService } from './Shared/services/app.menu.service';
 import { AppBreadcrumbService } from './Shared/services/app.breadcrumb.service';
 import { InterceptorService } from './Auth/services/interceptor.service';
  
+
+import { registerLocaleData } from '@angular/common';  
+import localePy from '@angular/common/locales/es-Pe';   
+registerLocaleData(localePy, 'es');
+
 
 @NgModule({
     imports: [
@@ -23,8 +28,9 @@ import { InterceptorService } from './Auth/services/interceptor.service';
         AppComponent, 
     ],
     providers: [
-        {provide: LocationStrategy, useClass: HashLocationStrategy},
+         {provide: LocationStrategy, useClass: HashLocationStrategy},
         MenuService,
+       // { provide: LOCALE_ID, useValue: 'es' },
         AppBreadcrumbService,
         {
             provide: HTTP_INTERCEPTORS,

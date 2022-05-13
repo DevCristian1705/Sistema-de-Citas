@@ -1,39 +1,34 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { Router } from '@angular/router'; 
+import { IUsuario } from 'src/app/Auth/interface/auth.interface';
+import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service'; 
-import { IUsuario } from '../../interface/auth.interface';
-import { LoginService } from '../../services/login.service';
-
+import { DoctorService } from '../service/doctor.service';
 
 @Component({
-  selector: 'app-registro',
-  templateUrl: './registro.component.html',
-  styleUrls: ['./registro.component.scss']
+  selector: 'app-doctor',
+  templateUrl: './crear-doctor.component.html',
+  styleUrls: ['./crear-doctor.component.scss']
 })
-export class RegistroComponent implements OnInit {
+export class CrearDoctorComponent implements OnInit {
 
-  Form : FormGroup; 
-  arraySexo: any[] = [];
-  cambiarIconEye: string = "fa fa-eye";
-
-  
-  constructor(    
-    private swal : MensajesSwalService,  
-    private router : Router,
-    private apiService : LoginService,
+ 
+  @Input() dataMedico : number;
+  Form : FormGroup;
+  arraySexo: any[] = ConstantesGenerales.arraySexo
+  arraytipoAdmin: any[] = ConstantesGenerales.arraytipoAdmin
+  cambiarIconEye: string = "fa fa-eye"; 
+  constructor(
+    private swal : MensajesSwalService, 
+    private apiService : DoctorService
   ) {
-    this.builform();
-
-    this.arraySexo = [
-      {nombre : 'MASCULINO', codigo: 'M'},
-      {nombre : 'FEMENINO', codigo: 'F'}, 
-    ]
-
+    this.builform(); 
+  
    }
 
-   public builform(): void {
+   private builform(): void {
     this.Form = new FormGroup({ 
+      colegiatura: new FormControl(null, Validators.required), 
       usuario: new FormControl(null, Validators.required), 
       nombres: new FormControl(null, Validators.required),  
       apellidoPaterno: new FormControl(null, Validators.required), 
@@ -43,20 +38,21 @@ export class RegistroComponent implements OnInit {
       direccion: new FormControl(null, Validators.required),  
       correo: new FormControl(null, Validators.email),  
       telefono: new FormControl(null, Validators.required),  
-      password : new FormControl(null, Validators.required)
-    })
+      password : new FormControl(null, Validators.required),
+      isadmin : new FormControl(null, Validators.required)
+    });
   }
  
 
-
-  ngOnInit(): void { 
+  ngOnInit(): void {   
   }
- 
-  
-  onGuardar(){
+   
+
+  onGuardar(){  
     const data = this.Form.value; 
-    const newUsuario : IUsuario = {
-      idusuario : 0, 
+    const newDoctor : IUsuario = {
+      idusuario : 0,
+      colegiatura: data.colegiatura,
       nombres: data.nombres,
       apellidoPaterno: data.apellidoPaterno,
       apellidoMaterno: data.apellidoMaterno, 
@@ -66,35 +62,27 @@ export class RegistroComponent implements OnInit {
       correo: data.correo, 
       telefono: data.telefono, 
       usuario: data.usuario,
-      password: data.password, 
-      isadmin : false,
-      isdoctor : false
+      password: data.password,
+      isadmin : data.isadmin.codigo,
+      isdoctor : true, 
     }
-    console.log(newUsuario);
-    this.apiService.crearUsuario(newUsuario).subscribe((resp) => {
+    console.log(newDoctor);
+    this.apiService.crearDoctor(newDoctor).subscribe((resp) => {
       if(resp){
-        this.swal.mensajeExito('se guardó correctamente');
-        setTimeout(() => {
-          this.router.navigate(['/auth']); 
-        }, 1000); 
+        this.swal.mensajeExito('se guardó correctamente'); 
+        this.Form.reset();
       }
     }, error => {
       this.swal.mensajeError(error);
     });
 
 
- 
-     
   }
- 
+  
 
   viewPassword(input) {
     input.type = input.type === 'password' ? 'text' : 'password'; 
     this.cambiarIconEye = input.type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'; 
-  }
-
-  onCancelar(){
-    this.router.navigate(['/auth']);
   }
 
   validateFormat(event) {
@@ -114,5 +102,6 @@ export class RegistroComponent implements OnInit {
      }
     }
     
-
+ 
+    
 }

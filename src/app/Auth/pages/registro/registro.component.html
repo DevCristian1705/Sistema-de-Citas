@@ -12,19 +12,19 @@
                     
                     <form [formGroup]="Form">   
                         <div class="formulario">  
-                            <strong>Dni:</strong>
+                            <strong>Dni*:</strong>
                             <input type="text" pInputText minlength="8" maxlength="8" (keypress)="validateFormat($event)" placeholder="ingresar dni" formControlName="usuario" class="p-inputtext-sm">  
                      
-                            <strong>Nombres:</strong>
+                            <strong>Nombres*:</strong>
                             <input type="text" pInputText placeholder="ingresar nombres" formControlName="nombres" class="p-inputtext-sm">  
 
-                            <strong>Apellidos:</strong> 
+                            <strong>Apellidos*:</strong> 
                             <div class="p-inputgroup">                  
                                 <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
                                 <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
                             </div>
                             
-                            <strong>Fec. Nacimiento:</strong>     
+                            <strong>Fec. Nacimiento*:</strong>     
                             <p-calendar   
                                 readonlyInput="true"
                                 [showIcon]="true"
@@ -32,7 +32,7 @@
                                 formControlName="fechaNacimiento"
                             ></p-calendar> 
 
-                            <strong>Sexo:</strong>
+                            <strong>Sexo*:</strong>
                             <p-dropdown
                                 class="extender"
                                 [options]="arraySexo" 
@@ -42,13 +42,13 @@
                                 [showClear]="true"
                             ></p-dropdown>
 
-                            <strong>Direccion:</strong>
+                            <strong>Direccion*:</strong>
                             <input type="text" pInputText minlength="1" maxlength="250"  placeholder="ingresar direccion" formControlName="direccion" class="p-inputtext-sm">  
 
-                            <strong>Correo:</strong>
+                            <strong>Correo*:</strong>
                             <input type="text" pInputText placeholder="ingresar correo" formControlName="correo" class="p-inputtext-sm">  
 
-                            <strong>Telefono:</strong>
+                            <strong>Telefono*:</strong>
                             <input type="text" pInputText minlength="9" maxlength="9" (keypress)="validateFormat($event)" placeholder="ingresar telefono" formControlName="telefono" class="p-inputtext-sm">  
                              
                             <strong>Contraseña:</strong>

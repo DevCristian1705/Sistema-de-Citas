@@ -1,0 +1,44 @@
+<div class="Margintabla">
+<div class="contenidoTable card"> 
+    <h2 class="botones"> ESTABLECER DIAS DE ATENCION</h2> 
+
+        <div class="stepsdemo-content"> 
+            <div>
+                <!-- <form [formGroup]="Form" class="form" >    
+  
+                    
+                </form>    -->
+            </div> 
+
+        </div>
+
+
+    <div class="botones">
+        
+
+        <button   
+            class="p-button-sm p-button-rounded mx-2"
+            pButton
+            type="button"
+            style=" background-color: white; color: black; margin-right: 1%;"
+            icon="pi pi-times-circle"
+            label="Cancelar" >  
+        </button>  
+
+        <button  
+            class="p-button-sm p-button-rounded mx-2"
+            pButton
+            type="button"
+       
+            label="{{ (dataHorarios) ? 'Actualizar' : 'Grabar' }}"
+            (click)="onGuardar()"
+            icon="pi pi-check-circle">  
+        </button>  
+
+    </div>
+</div>  
+
+</div>
+    
+     
+    

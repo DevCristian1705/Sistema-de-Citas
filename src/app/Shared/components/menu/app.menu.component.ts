@@ -1,8 +1,6 @@
-import {Component, EventEmitter, OnInit, Output} from '@angular/core'; 
-import { forkJoin, Subject } from 'rxjs';
-import { IAuth } from 'src/app/Auth/interface/auth.interface';
-import { AuthService } from 'src/app/Auth/services/auth.service'; 
-import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';
+import {Component, OnInit} from '@angular/core'; 
+import { MenuItem } from 'primeng/api';
+import { Subject } from 'rxjs';
 import { AppComponent} from '../../../app.component'; 
  
 
@@ -15,9 +13,10 @@ import { AppComponent} from '../../../app.component';
    `
   })
 export class AppMenuComponent implements OnInit {
-    model: any[];  
+    model: MenuItem[];  
     public FlgRetornaNuevoToken: Subject<boolean> = new Subject<boolean>();
-  
+    dataDesencryptada : any = JSON.parse(sessionStorage.getItem('datosUsuario'))
+
     constructor(
         public app: AppComponent,  
     ) { 
@@ -29,7 +28,8 @@ export class AppMenuComponent implements OnInit {
             items: [
                 {label: 'Registro de citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cita']}, 
                 {label: 'Cambio contraseña', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/medico']}, 
-                {label: 'Registro de Medicos', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/medico']}, 
+                {label: 'Registro de Doctores', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/doctor'], visible: this.dataDesencryptada.isadmin}, 
+                {label: 'Registro dias Atencion', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/diasAtencion'], visible: this.dataDesencryptada.isdoctor}, 
             ]
           }, 
         //   { 

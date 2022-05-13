@@ -58,9 +58,11 @@ export class AppLoginComponent {
         const SaveDatos : any = {
           usuario: DatosUsuario.nombres,
           apePaterno: DatosUsuario.apellidoPaterno,
+          apeMaterno: DatosUsuario.apellidoMaterno,
           correo : DatosUsuario.correo,
           isadmin : DatosUsuario.isadmin,
-          idusuario : DatosUsuario.idusuario
+          idusuario : DatosUsuario.idusuario,
+          isdoctor : DatosUsuario.isdoctor
         }
         sessionStorage.setItem('datosUsuario', JSON.stringify(SaveDatos)); 
         localStorage.setItem('rememberMe', dataForm.rememberMe ? dataForm.rememberMe : null); 

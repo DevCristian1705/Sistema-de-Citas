@@ -17,8 +17,8 @@ export class ConstantesGenerales {
     public static _FORMATO_MINUTO_Y_SEGUNDO = 'mm:ss';
     public static _FORMATO_DDMMYYYY_HHMMSS = 'dd/MM/yyyy h:mm a'; 
     public static _FORMATO_FECHA_VISTA = 'dd/MM/yyyy'; 
-    public static _FORMATO_FECHA_BUSQUEDA = 'yyyy-MM-dd'; 
-    public static _FORMATO_FECHA_GRABAR = 'yyyy-MM-ddTHH:mm:ss'; 
+    public static _FORMATO_FECHA_BUSQUEDA = 'yyyy-MM-dd';  
+    public static _FORMATO_HORA = 'HH:mm:ss'; 
     // NOMBRES DE LAS VARIABLES QUE SE ALOJARAN EN LOCAL STORAGE
   
     public static ES_CALENDARIO = {
@@ -84,8 +84,15 @@ export class ConstantesGenerales {
       {mes : 12, nombre : "DICIEMBRE"},
     ]
 
+    public static  arraySexo = [
+      {nombre : 'MASCULINO', codigo: 'M'},
+      {nombre : 'FEMENINO', codigo: 'F'}, 
+    ]
 
+    public static  arraytipoAdmin = [
+      {nombre : 'ADMINISTRADOR', codigo: 1},
+      {nombre : 'USUARIO', codigo: 0}, 
+    ]
 
-  
   }
   

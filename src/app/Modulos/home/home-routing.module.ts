@@ -3,8 +3,10 @@ import { RouterModule, Routes } from '@angular/router';
 import { AuthGuard } from 'src/app/Auth/guards/auth.guard';   
 import { AppNotfoundComponent } from 'src/app/Auth/pages/not-found/app.notfound.component';
 import { CrearCitaComponent } from './cita/crear-cita/crear-cita.component';
-import { HomeComponent } from './home.component';   
-import { CrearMedicoComponent } from './medico/crear-medico/crear-medico.component';
+import { CrearDiasAtencionComponent } from './diasatencion/crear-dias-atencion/crear-dias-atencion.component';
+import { CrearDoctorComponent } from './doctor/crear-doctor/crear-doctor.component';
+import { HomeComponent } from './home.component';    
+import { CrearHorarioComponent } from './horario/crear-horario/crear-horario.component';
 
 const routes: Routes = [
    
@@ -21,8 +23,20 @@ const routes: Routes = [
         canActivate : [AuthGuard]
       },
       {
-        path: 'medico',
-        component : CrearMedicoComponent,
+        path: 'doctor',
+        component : CrearDoctorComponent,
+        canLoad : [AuthGuard],
+        canActivate : [AuthGuard]
+      },
+      {
+        path: 'horario',
+        component : CrearHorarioComponent,
+        canLoad : [AuthGuard],
+        canActivate : [AuthGuard]
+      },
+      {
+        path: 'diasAtencion',
+        component : CrearDiasAtencionComponent,
         canLoad : [AuthGuard],
         canActivate : [AuthGuard]
       }

@@ -107,6 +107,26 @@ export class MensajesSwalService {
         return promesa;
     }
 
+
+    mensajeInfoCita(nombre: any, de: any, hasta : any): Promise<SweetAlertResult<any>> {
+        const promesa = new Promise<SweetAlertResult<any>>((resolve, reject) =>
+        { Swal.fire({
+            title: nombre,
+            text: 'horario: ' + de +' - ' + hasta,
+            icon: 'question',
+            showCancelButton: false,
+            confirmButtonColor: '#3085d6', 
+            confirmButtonText: 'Ok', 
+          }).then(
+              respuesta => {
+                  resolve(respuesta);
+              }
+          )
+        }); 
+        return promesa;
+    }
+
+
     separarCita(fechacita: any): Promise<SweetAlertResult<any>> {
         const promesa = new Promise<SweetAlertResult<any>>((resolve, reject) =>
           { Swal.fire({
