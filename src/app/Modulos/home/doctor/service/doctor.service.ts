@@ -18,7 +18,7 @@ export class DoctorService {
  
 
   crearDoctor(data : IUsuario):Observable<any>{
-      return this.http.post<IUsuario>(`${this.api}/api/doctor/crear`, data)
+      return this.http.post<IUsuario>(`${this.api}/api/usuario/crear`, data)
   }
   
 

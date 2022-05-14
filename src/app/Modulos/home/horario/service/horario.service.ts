@@ -25,9 +25,17 @@ export class HorarioService {
     return this.http.get<IHorariosDisponibles>(`${this.api}/api/horario/listar/${id}`)
   }
 
+  /** DIAS ATENCION */
+
+  crearDiasAtecion(data : any):Observable<any>{
+    return this.http.post<any[]>(`${this.api}/api/diasatencion/crear`, data)
+}
+
   getDiasAtencion(id : number):Observable<any>{
     return this.http.get<IDiasAtencion>(`${this.api}/api/diasatencion/listar/${id}`)
   }
+
+
  
 
 }

@@ -9,7 +9,14 @@ export interface IHorariosDisponibles {
 
 export interface IDiasAtencion{
     iddiasatencion: number,
-    iddoctor: number,
+    idusuariodoctor: number,
     diaatencion: string,
     nombredia :string
 }
+ 
+
+export interface ICrearDiasAtencion{
+    diasatencion: string[],
+    idusuariodoctor: number, 
+}
+ 

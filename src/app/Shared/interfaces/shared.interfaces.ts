@@ -22,6 +22,16 @@ export class ConstantesGenerales {
     // NOMBRES DE LAS VARIABLES QUE SE ALOJARAN EN LOCAL STORAGE
   
     public static ES_CALENDARIO = {
+      dayNamesUpper: [
+        'DOMINGO',
+        'LUNES',
+        'MARTES',
+        'MIERCOLES',
+        'JUEVES',
+        'VIERNES',
+        'SABADO'
+      ],
+
       firstDayOfWeek: 1,
       dayNames: [
         'Domingo',
@@ -94,5 +104,8 @@ export class ConstantesGenerales {
       {nombre : 'USUARIO', codigo: 0}, 
     ]
 
+
+ 
+ 
   }
   

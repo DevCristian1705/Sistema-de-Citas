@@ -94,7 +94,7 @@ export class CrearCitaComponent implements OnInit {
 
   onCargarListacitas(){
     this.apiCitas.getCitas(+this.dataDesencryptada.idusuario).subscribe((resp)=> {  
-      if(resp){
+      if(resp.data){
         let  ObjCitas : any = resp.data
         ObjCitas.forEach(element => {
           this.listaCitas.push({title: element.usuario, date: element.fecha , start: element. horainicio, end: element.horafin, id: element.idcita})
@@ -180,7 +180,7 @@ export class CrearCitaComponent implements OnInit {
 
   onSeleccionoDoctor(event :any){ 
     if(event.value){   
-      this.mostrardiasAtencion = true;
+      this.mostrardiasAtencion = true; 
       this.onCargarDiasAtencion(event.value.idusuario);  
       this.onCargarHorariosDisponibles(event.value.idusuario);  
     }else{ 
