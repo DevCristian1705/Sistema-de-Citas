@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { InterfaceColumnasGrilla } from 'src/app/Shared/interfaces/shared.interfaces';
+import { HorarioService } from '../service/horario.service';
 
 @Component({
   selector: 'app-crear-horario',
@@ -7,9 +9,22 @@ import { Component, OnInit } from '@angular/core';
 })
 export class CrearHorarioComponent implements OnInit {
 
-  constructor() { }
+  dataHorarios:any 
+  cols : InterfaceColumnasGrilla[]= [];
+  Listahorarios :any;
+
+  constructor(
+    private apiService: HorarioService
+  ) { }
 
   ngOnInit(): void {
   }
+
+  onGuardar(){
+
+  }
+
+
+
 
 }

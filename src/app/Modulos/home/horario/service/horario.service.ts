@@ -21,12 +21,11 @@ export class HorarioService {
   }
   
 
-  getHorarios(id : number):Observable<any>{
-    return this.http.get<IHorariosDisponibles>(`${this.api}/api/horario/listar/${id}`)
+  getHorarios(idusuariodoctor : number):Observable<any>{
+    return this.http.get<IHorariosDisponibles>(`${this.api}/api/horario/listar/${idusuariodoctor}`)
   }
 
-  /** DIAS ATENCION */
-
+  /** DIAS ATENCION */ 
   crearDiasAtecion(data : any):Observable<any>{
     return this.http.post<any[]>(`${this.api}/api/diasatencion/crear`, data)
 }

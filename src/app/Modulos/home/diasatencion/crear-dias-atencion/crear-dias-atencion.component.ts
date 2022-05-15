@@ -36,20 +36,19 @@ export class CrearDiasAtencionComponent implements OnInit {
   }
 
   onCapturarFechas(event){ 
-    if(event){  
-      
+    if(event){   
 
       if(event < this.fechaActual){
         this.swal.mensajeInformacion('La fecha no puede ser menor a la fecha actual');
       }else{
-        let nuevafecha = this.dateFormat.transform(event, ConstantesGenerales._FORMATO_FECHA_VISTA)
+        let nuevafecha = this.dateFormat.transform(event, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA)
 
         const numeroDia = new Date(event).getDay();
         const nombreDia = ConstantesGenerales.ES_CALENDARIO.dayNamesUpper[numeroDia];  
   
-        let Existefecha = this.fechasSeleccionada.find(x => x.diaatecion === nuevafecha) 
+        let Existefecha = this.fechasSeleccionada.find(x => x.diaatencion === nuevafecha) 
         if(!Existefecha){
-          this.fechasSeleccionada.push({nombredia: nombreDia,  diaatecion :nuevafecha,  idusuariodoctor : this.dataDesencryptada.idusuario, }); 
+          this.fechasSeleccionada.push({nombredia: nombreDia,  diaatencion :nuevafecha,  idusuariodoctor : this.dataDesencryptada.idusuario, }); 
         }else{
           this.swal.mensajeInformacion('La fecha ya se encuentra seleccionada');
         } 
@@ -62,14 +61,14 @@ export class CrearDiasAtencionComponent implements OnInit {
   onArmarTabla(){  
     this.cols = [   
       { field: 'nombredia', header: 'Día', visibility: true},  
-      { field: 'diaatecion', header: 'Fecha', visibility: true},   
+      { field: 'diaatencion', header: 'Fecha', visibility: true},   
       { field: 'acciones', header: 'Ajustes', visibility: true  }, 
     ];
   }
 
   onEliminar(event, indice){ 
     if(event){
-      let Existefecha = this.fechasSeleccionada.find(x => x.diaatecion === event.diaatecion) 
+      let Existefecha = this.fechasSeleccionada.find(x => x.diaatencion === event.diaatencion) 
       if(Existefecha){ 
         this.fechasSeleccionada.splice(indice, 1); 
       }
@@ -80,6 +79,7 @@ export class CrearDiasAtencionComponent implements OnInit {
     this.apiService.crearDiasAtecion(this.fechasSeleccionada).subscribe((resp)=>{
       if(resp){
         this.swal.mensajeExito('Se guardo los dias de atención con exito!.');
+        this.fechasSeleccionada = null;
       }
     }) 
   }

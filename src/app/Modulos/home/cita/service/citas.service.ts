@@ -15,8 +15,8 @@ export class CitasService {
   ) { }
   
  
-  getCitas(id: any):Observable<any>{
-    return this.http.get<ICita>(`${this.api}/api/cita/listar/${id}`)
+  getCitas(id: any, iddoctor : number):Observable<any>{
+    return this.http.get<ICita>(`${this.api}/api/cita/listar/${id}/${iddoctor}`)
 }
 
 }

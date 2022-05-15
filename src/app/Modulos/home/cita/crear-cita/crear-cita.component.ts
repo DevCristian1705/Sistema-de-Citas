@@ -72,8 +72,7 @@ export class CrearCitaComponent implements OnInit {
  
   ngOnInit() {
     this.config.setTranslation(this.es)
-    this.onCargarDoctores();
-    this.onCargarListacitas();
+    this.onCargarDoctores(); 
    
     this.cols = [  
       { field: 'idcita', header: 'id', visibility: false  },  
@@ -91,19 +90,7 @@ export class CrearCitaComponent implements OnInit {
     this.colsDiasAtencion = this.colsDiasAtencion.filter(x => x.visibility === true)
    
   }
-
-  onCargarListacitas(){
-    this.apiCitas.getCitas(+this.dataDesencryptada.idusuario).subscribe((resp)=> {  
-      if(resp.data){
-        let  ObjCitas : any = resp.data
-        ObjCitas.forEach(element => {
-          this.listaCitas.push({title: element.usuario, date: element.fecha , start: element. horainicio, end: element.horafin, id: element.idcita})
-        });   
-      }
-    });
-
-  }
-
+ 
 
   configCalendario(){ 
     this.calendarOptions = {
@@ -131,8 +118,6 @@ export class CrearCitaComponent implements OnInit {
        
     };  
   }
-
-  
  
   handleEventClick(clickInfo) {  
     let horainicioReal = new Date(new Date(clickInfo.event._instance.range.start).setHours(clickInfo.event._instance.range.start.getHours() + 5)); 
@@ -181,6 +166,7 @@ export class CrearCitaComponent implements OnInit {
   onSeleccionoDoctor(event :any){ 
     if(event.value){   
       this.mostrardiasAtencion = true; 
+      this.onCargarListacitas(event.value.idusuario);  
       this.onCargarDiasAtencion(event.value.idusuario);  
       this.onCargarHorariosDisponibles(event.value.idusuario);  
     }else{ 
@@ -188,6 +174,18 @@ export class CrearCitaComponent implements OnInit {
       this.mostrarCalendario = false;
     }
   }
+
+  onCargarListacitas(iddoctor: number){
+    this.apiCitas.getCitas(+this.dataDesencryptada.idusuario, iddoctor).subscribe((resp)=> {  
+      if(resp.data){
+        let  ObjCitas : any = resp.data
+          ObjCitas.forEach(element => {
+          this.listaCitas.push({title: element.usuario, date: element.fecha , start: element. horainicio, end: element.horafin, id: element.idcita})
+        });   
+      }
+    }); 
+  }
+
 
   handleDateClick(arg) {  
    this.fechaCitasolicitada = arg.dateStr;
