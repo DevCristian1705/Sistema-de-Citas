@@ -18,44 +18,42 @@
                     <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
                     <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
                 </div>
-            </div>
+              
+                <strong>Fec. Nacimiento*:</strong>     
+                <p-calendar   
+                    readonlyInput="true"
+                    [showIcon]="true"
+                    dateFormat="dd/mm/yy"
+                    formControlName="fechaNacimiento"
+                ></p-calendar> 
 
-            
-            <strong>Fec. Nacimiento*:</strong>     
-            <p-calendar   
-                readonlyInput="true"
-                [showIcon]="true"
-                dateFormat="dd/mm/yy"
-                formControlName="fechaNacimiento"
-            ></p-calendar> 
-
-            <strong>Sexo*:</strong>
-            <p-dropdown
-                class="extender"
-                [options]="arraySexo" 
-                formControlName="sexo"
-                placeholder="selecciona"
-                optionLabel="nombre"
-                [showClear]="true"
-            ></p-dropdown>
+                <strong>Sexo*:</strong>
+                <p-dropdown
+                    class="extender"
+                    [options]="arraySexo" 
+                    formControlName="sexo"
+                    placeholder="selecciona"
+                    optionLabel="nombre"
+                    [showClear]="true"
+                ></p-dropdown>
              
-            <strong>Direccion*:</strong>
-            <input type="text" pInputText formControlName="direccion" class="p-inputtext-sm"  placeholder="ingresar una direccion">  
-            
-            <strong>Correo*</strong>
-            <input type="email" pInputText formControlName="correo" class="p-inputtext-sm" placeholder="ingresar el corrreo">  
-            
-            <strong>Telefono*</strong>
-            <input type="text" pInputText maxlength="9"  (keypress)="validateFormat($event)" formControlName="telefono" class="p-inputtext-sm" placeholder="ingresar el telefono">  
-                 
-            <strong>Contraseña*:</strong> 
-            <span class="p-input-icon-right" style="width: 100%;">
-                <i toggle="#password-field"
-                [class]="cambiarIconEye"
-                (click)="viewPassword(clave)"> </i>
-                <input type="password" style="display: grid" minlength="2" maxlength="6"  #passwordField pInputText placeholder="ingrese contraseña" formControlName="password"  #clave class="p-inputtext-sm">    
-            </span> 
-            
+                <strong>Direccion*:</strong>
+                <input type="text" pInputText formControlName="direccion" class="p-inputtext-sm"  placeholder="ingresar una direccion">  
+                
+                <strong>Correo*</strong>
+                <input type="email" pInputText formControlName="correo" class="p-inputtext-sm" placeholder="ingresar el corrreo">  
+                
+                <strong>Telefono*</strong>
+                <input type="text" pInputText maxlength="9"  (keypress)="validateFormat($event)" formControlName="telefono" class="p-inputtext-sm" placeholder="ingresar el telefono">  
+                    
+                <strong>Contraseña*:</strong> 
+                <span class="p-input-icon-right" style="width: 100%;">
+                    <i toggle="#password-field"
+                    [class]="cambiarIconEye"
+                    (click)="viewPassword(clave)"> </i>
+                    <input type="password" style="display: grid" minlength="2" maxlength="6"  #passwordField pInputText placeholder="ingrese contraseña" formControlName="password"  #clave class="p-inputtext-sm">    
+                </span> 
+            </div>
         </form>   
         
         <div class="botones"> 

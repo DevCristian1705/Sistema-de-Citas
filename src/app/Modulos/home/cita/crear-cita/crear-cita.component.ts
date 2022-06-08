@@ -207,7 +207,7 @@ export class CrearCitaComponent implements OnInit {
 
   onCargarListacitas(){
     const filter = {
-      idusuario : +this.dataDesencryptada.idusuario,
+      idusuario : this.dataDesencryptada.isadmin ? 0 : +this.dataDesencryptada.idusuario,
       idusuariodoctor : this.idDoctorSelccionado, //iddoctor,
       fecha : null
     }
