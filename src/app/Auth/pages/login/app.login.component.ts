@@ -56,9 +56,10 @@ export class AppLoginComponent {
       if(resp){
         let DatosUsuario :any = resp.user;
         const SaveDatos : any = {
-          usuario: DatosUsuario.nombres,
+          nombre: DatosUsuario.nombres,
           apePaterno: DatosUsuario.apellidoPaterno,
           apeMaterno: DatosUsuario.apellidoMaterno,
+          dni : DatosUsuario.usuario,
           correo : DatosUsuario.correo,
           isadmin : DatosUsuario.isadmin,
           idusuario : DatosUsuario.idusuario,

@@ -26,5 +26,8 @@ export class DoctorService {
     return this.http.get<IUsuario>(`${this.api}/api/usuario/listardoctores`)
   }
 
+  getUsuarioId(idusuario: number):Observable<any>{
+    return this.http.get<IUsuario>(`${this.api}/api/usuario/listar-usuario/${idusuario}`) 
+  }
 
 }

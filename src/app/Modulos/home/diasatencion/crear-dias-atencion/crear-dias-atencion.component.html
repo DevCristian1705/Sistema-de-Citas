@@ -1,88 +1,107 @@
 <div class="Margintabla">
-<div class="contenidoTable card"> 
-    <h2 class="botones"> ESTABLECER DIAS DE ATENCION</h2>   
-    <hr> 
-        <div class="formulario"> 
-            <p-calendar
-                [(ngModel)]="dates"
-                (onSelect)="onCapturarFechas($event)"   
-                selectionMode="single"
-                [inline]="true" 
-                [readonlyInput]="true" 
-                inputId="multiple">
-            </p-calendar>
+    <div class="contenidoTable card"> 
+        <div>
+            <h2 style="text-align:center"> ESTABLECER DIAS DE ATENCION</h2>   
+  
+            <hr> 
 
-            <div>
-                <h4> <strong>Dias elegidos de atención.</strong></h4> 
-                <hr>
+            <form [formGroup]="Form">  
+                <div class="p-col-12"> 
+                    <div class="p-fluid p-formgrid p-grid"> 
+                        <div class="p-field p-col-12 p-md-6">
+                            <strong>Médico</strong> 
+                            <p-dropdown 
+                                class="extender"
+                                [options]="arrayDoctores"  
+                                placeholder="seleccionar"
+                                optionLabel="nombres"
+                                formControlName="Medico" 
+                                (onChange)="onChangeMedico($event)"
+                                [showClear]="true"
+                            ></p-dropdown>
+                        </div> 
+   
+                        <div class="p-field p-col-12 p-md-4  p-sm-6">
+                            <strong>Fecha Atención</strong>  
+                            <p-calendar    
+                                [minDate]="fechaActual"
+                                appendTo="body" 
+                                [showIcon]="true"
+                                dateFormat="dd/mm/yy"   
+                                formControlName="FechaAtencion"  
+                                [hourFormat]="12"
+                                [showTime]="true" inputId="time"
+                            ></p-calendar>  
+                        </div> 
+
+                        <div class="p-field p-col-12 p-md-2  p-sm-6">
+                            <strong>N° de citas </strong> 
+                            <p-inputNumber   formControlName="CantidadCitas" [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal" inputId="horizontal"
+                            decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
+                            </p-inputNumber>  
+                        </div> 
+   
+                    </div>  
+                </div>  
+
+                <div style="text-align:center"> 
+                    <button class="p-button-sm" pButton  [disabled]="!horariosGenerados.length" (click)="onAnularhorarios()"   type="button" style=" background-color: white; color: black; margin-right: 1%;" icon="pi pi-times-circle" label="Anular" > </button>   
+                    <button type="button" [disabled]="!Form.valid" pTooltip="Generar" label="Generar" class="p-button-sm" tooltipPosition="left" (click)="onGenerarHorarios()" pButton icon="fas fa-clock"></button>      
+                </div>  
+            </form>
+            <hr>
+                    <!-- MUESTRA LOS DATOS CON HORARIOS GENERADOS -->
+            <div *ngIf="mostrarTablaGenerar">
                 <p-table   
-                    [columns]="cols" 
-                    [value]="fechasSeleccionada"
+                    class="TablaGeneral"
                     [rowHover]="true"
-                    responsiveLayout="scroll"
-                    selectionMode="single"   >
-        
-                    <ng-template pTemplate="header">
-                        <tr>  
-                            <th *ngFor="let col of cols" [pSortableColumn]="col.field"> 
-                                {{col.header}}   
-                            </th> 
-                        </tr>
-                    </ng-template>
-                    <ng-template pTemplate="body" let-rowData let-col let-rowIndex="rowIndex">
-                        <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"> 
-                            <td *ngFor="let col of cols"> 
-                                <strong class="p-column-title">{{ col.header | uppercase}}</strong>   
-                                    {{ rowData[col.field]  }} 
+                    [paginator]="true" 
+                    [rows]="10" 
+                    [value]="horariosGenerados">
 
-                                <ng-template #botones [ngIf]="col.field === 'acciones'"> 
-                                    <button  
-                                        pButton
-                                        type="button" 
-                                        class="p-button-sm"
-                                        style="background-color: #D72250;border-radius: 15px;"
-                                        (click)="onEliminar(rowData, rowIndex)"
-                                        tooltipPosition="top" 
-                                        pTooltip="Eliminar Fecha"  
-                                        icon="pi pi-trash">
-                                    </button>     
-                                </ng-template>
-                                
-                            <td>   
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>DIA</th>
+                            <th>FECHA</th>
+                            <th>HORARIO</th>
+                        </tr> 
+                    </ng-template>
+ 
+                    <ng-template pTemplate="body" let-horario let-columns="columns" >
+                        <tr [pSelectableRow]="horario" [pSelectableRowIndex]="horario">  
+                            <td> <strong class="p-column-title">DIA </strong> {{horario.nombredia}}</td>
+                            <td> <strong class="p-column-title">FECHA</strong> {{horario.diaatencion | date:'dd-MM-yyyy'}}</td>
+                            <td> <strong class="p-column-title">HORARIO</strong> {{horario.horainicio | date:'shortTime'}} - {{horario.horafin | date:'shortTime'}}</td>  
                         </tr>
                     </ng-template>      
                 </p-table> 
+
+                <br>
+                <div class="botones"> 
+                    <button   
+                        class="p-button-sm p-button-rounded mx-2"
+                        pButton
+                        type="button"
+                        style=" background-color: white; color: black; margin-right: 1%;"
+                        icon="pi pi-times-circle"
+                        label="Cancelar" >  
+                    </button>   
+                    <button  
+                        class="p-button-sm p-button-rounded mx-2"
+                        pButton
+                        type="button" 
+                        label="{{ (dataHorarios) ? 'Actualizar' : 'Grabar' }}"
+                        (click)="onGuardar()"
+                        icon="pi pi-check-circle">  
+                    </button>  
+            
+                </div>
             </div>
-        </div>
-
-        <br>
-
-    <div class="botones">
-        
-
-        <button   
-            class="p-button-sm p-button-rounded mx-2"
-            pButton
-            type="button"
-            style=" background-color: white; color: black; margin-right: 1%;"
-            icon="pi pi-times-circle"
-            label="Cancelar" >  
-        </button>  
-
-        <button  
-            class="p-button-sm p-button-rounded mx-2"
-            pButton
-            type="button"
-       
-            label="{{ (dataHorarios) ? 'Actualizar' : 'Grabar' }}"
-            (click)="onGuardar()"
-            icon="pi pi-check-circle">  
-        </button>  
-
-    </div>
-</div>  
-
+              
+          
+        </div> 
+    </div>   
+ 
 </div>
     
-     
-    
+ 

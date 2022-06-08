@@ -5,17 +5,31 @@
     text-align: center;
     grid-auto-rows: auto;
     grid-template-columns: 1fr 1fr;
+    min-height: 50vh;
     @media (max-width: 900px) {   
         display: grid;
         grid-template-columns: 100%;
         text-align: center;
+       
     }
  }
 
-
- ::ng-deep .p-datatable .p-datatable-tbody > tr > td {
-    text-align: left;
-    border: 1px solid rgba(232, 241, 248, 0.7);
-    border-width: 0 0 1px 0;
-    padding: 3px 3px;
+  
+ ::ng-deep  .p-inputnumber-buttons-horizontal .p-inputnumber-input {
+    width: 5% !important;
+    text-align: center;
 }
+ 
+::ng-deep p-calendar .p-datepicker{
+    min-height: 40vh;
+}
+ 
+p-calendar td span.p-disabled {
+    color: red !important;
+    background: rgb(209, 209, 209) !important
+  }
+  
+  p-calendar .custom-theme  td span.p-disabled {
+    color: #fff !important;
+    background: darkred !important
+  }

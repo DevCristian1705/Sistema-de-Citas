@@ -95,9 +95,12 @@ export class MensajesSwalService {
             icon: 'question',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
             confirmButtonText: 'Reservar',
-            cancelButtonText: 'Cancelar'
+            showDenyButton: true, 
+            denyButtonText: `Reservar & Pagar`, 
+            denyButtonColor: '#57BE6C',
+            cancelButtonText: 'Cancelar',
+            cancelButtonColor: '#d33',
           }).then(
               respuesta => {
                   resolve(respuesta);
@@ -108,22 +111,45 @@ export class MensajesSwalService {
     }
 
 
-    mensajeInfoCita(nombre: any, de: any, hasta : any): Promise<SweetAlertResult<any>> {
-        const promesa = new Promise<SweetAlertResult<any>>((resolve, reject) =>
-        { Swal.fire({
-            title: nombre,
-            text: 'horario: ' + de +' - ' + hasta,
-            icon: 'question',
-            showCancelButton: false,
-            confirmButtonColor: '#3085d6', 
-            confirmButtonText: 'Ok', 
-          }).then(
-              respuesta => {
-                  resolve(respuesta);
-              }
-          )
-        }); 
-        return promesa;
+    mensajeInfoCita(nombre: any, de: any, hasta : any, estado : string): Promise<SweetAlertResult<any>> {
+        if(estado === 'PAGADO'){
+            const promesa = new Promise<SweetAlertResult<any>>((resolve, reject) =>
+            { Swal.fire({
+                title: nombre,
+                text: 'horario: ' + de +' - ' + hasta,
+                icon: 'question',
+                showCancelButton: false, 
+                confirmButtonColor: '#3085d6', 
+                confirmButtonText: 'Ok', 
+              }).then(
+                  respuesta => {
+                      resolve(respuesta);
+                  }
+              )
+            }); 
+            return promesa;
+        }else{ 
+            const promesa = new Promise<SweetAlertResult<any>>((resolve, reject) =>
+            { Swal.fire({
+                title: nombre,
+                text: 'horario: ' + de +' - ' + hasta,
+                icon: 'question',
+                showCancelButton: true,
+                cancelButtonColor: '#57BE6C',
+                cancelButtonText: 'Pagar Cita',
+                confirmButtonColor: '#3085d6', 
+                confirmButtonText: 'Ok', 
+              }).then(
+                  respuesta => {
+                      resolve(respuesta);
+                  }
+              )
+            }); 
+            return promesa;
+        }
+       
+
+
     }
 
 

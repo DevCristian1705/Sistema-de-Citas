@@ -1,8 +1,7 @@
 
-<div class="card">
-    
+<div class="card"> 
     <h2 class="botones"> CALENDARIO DE CITAS</h2>
-    <div class="filtro">
+    <div class="filtroCombo">
         <div class="p-col-12"> 
             <div class="p-fluid p-formgrid p-grid Alinear"> 
                 <div class="p-field p-col-12 p-md-6 ">  
@@ -22,60 +21,66 @@
     </div>
      
     <br>
-    <div *ngIf="mostrardiasAtencion">
-        <p-table   
-            [columns]="colsDiasAtencion" 
-            [value]="listaDiasAtencion"
+    <div *ngIf="mostrardiasAtencion"> 
+        <p-table  
+            class="TablaGeneral"
+            [value]="listaDiasAtencion" 
+            [columns]="colsDiasAtencion"
             [rowHover]="true"
             responsiveLayout="scroll"
             selectionMode="single"
             (onRowSelect)="onSeleccionaDiaDisponible($event)"   >
 
-            <ng-template pTemplate="header">
-                <tr>  
-                    <th *ngFor="let col of colsDiasAtencion" [pSortableColumn]="col.field"> 
-                        {{col.header}}  
-                        <p-sortIcon *ngIf="col.field != 'acciones'"
-                            [field]="col.field"
-                            ariaLabel="Activate to sort"
-                            ariaLabelDesc="Activate to sort in descending order"
-                            ariaLabelAsc="Activate to sort in ascending order">
-                        </p-sortIcon> 
-                    </th> 
+                <ng-template pTemplate="header" let-columns>
+                <tr>
+                    <th *ngFor="let col of columns">
+                    {{ col.header }}  
                 </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-col let-rowIndex>
-                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"> 
-                    <td *ngFor="let col of colsDiasAtencion"> 
-                        <strong class="p-column-title">{{ col.header | uppercase}}</strong>  
+                </ng-template>
+                <ng-template pTemplate="body" let-dia let-columns="columns"  let-rowIndex="rowIndex">
+                <tr [pSelectableRow]="dia" [pSelectableRowIndex]="rowIndex">
+                    <td  *ngFor="let col of columns" >
+                    <strong class="p-column-title">{{ col.header | uppercase}}</strong>   
                         <div [ngSwitch]="col.field">    
-                            <div *ngSwitchCase="'diaatencion'">
-                              {{ rowData[col.field] | date: col.formatoFecha }}
-                            </div>
-                            <div *ngSwitchDefault>
-                              {{ rowData[col.field]  }}
-                            </div>
-                        </div>  
-             
-                    <td>   
+                    <div *ngSwitchCase="'diaatencion'">
+                            {{ dia[col.field] | date: col.formatoFecha }}
+                        </div>
+                        <div *ngSwitchDefault>
+                            {{ dia[col.field]  }}
+                        </div>
+                        </div>   
+                    </td>
                 </tr>
-            </ng-template>      
-        </p-table> 
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="6">No existen dias registradas</td>
+                </tr>
+                </ng-template> 
+        </p-table>  
+
+
     </div> 
-    <br>
+
     <hr>
-    <br>
+   
     <!-- CALENDARIO -->
     <div *ngIf="mostrarCalendario">
-        <full-calendar deepChangeDetection="true" [options]="calendarOptions"></full-calendar>
- 
+
+        <div class="ColoresEstados">
+            <span class="ColorReservado"> <strong> CITA RESERVADA  </strong></span>   
+            <span class="ColorPagado"> <strong> CITA PAGADA </strong></span>  
+            <span class="ColorCancelado"> <strong> CITA CANCELADA  </strong></span>  
+        </div>
+
+        <full-calendar deepChangeDetection="true" [options]="calendarOptions"></full-calendar> 
     </div>
   
 </div>
 
- 
-<div *ngIf="modalCita">
-    <p-dialog header="HORARIOS DISPONIBLE" [(visible)]="modalCita" [modal]="true" [draggable]="false" [resizable]="false" class="SizeModal"> 
+ <!-- MODAL HORARIOS  -->
+<div *ngIf="modalHorarioCita">
+    <p-dialog header="HORARIOS DISPONIBLE" [(visible)]="modalHorarioCita" [modal]="true" [draggable]="false" [resizable]="false" > 
         <div class="card">  
             
             <div class="ElegirCita">
@@ -91,70 +96,116 @@
             </div>
                   
             <br>
-
-            <p-table   
-            [columns]="cols" 
-            [value]="listaHorarios"
-            [rowHover]="true"
-            responsiveLayout="scroll"
-            selectionMode="single" 
-            (onRowSelect)="onSeleccionarHorario($event)"    >
-
-            <ng-template pTemplate="header">
-                <tr>  
-                    <th *ngFor="let col of cols" [pSortableColumn]="col.field"> 
-                        {{col.header}}  
-                    </th> 
-                </tr>
-            </ng-template>
-            <ng-template pTemplate="body" let-rowData let-col let-rowIndex>
-                <tr [pSelectableRow]="rowData" [pSelectableRowIndex]="rowIndex"> 
-                    <td *ngFor="let col of cols"> 
-                        <strong class="p-column-title">{{ col.header | uppercase}}</strong>  
-                        {{ rowData[col.field]  }} 
-                    <td>   
-                </tr>
-            </ng-template>      
-            </p-table> 
+   
+            <p-table  
+                class="TablaGeneral"
+                [value]="listaHorarios" 
+                [columns]="cols"
+                selectionMode="single"
+                (onRowSelect)="onSeleccionarHorario($event)"  >
+                    <ng-template pTemplate="header" let-columns>
+                    <tr>
+                        <th *ngFor="let col of columns">
+                        {{ col.header }}  
+                    </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-horario let-columns="columns"  let-rowIndex="rowIndex">
+                    <tr [pSelectableRow]="horario" [pSelectableRowIndex]="rowIndex">
+                        <td  *ngFor="let col of columns" >
+                        <strong class="p-column-title">{{ col.header | uppercase}}</strong>   
+                            <div [ngSwitch]="col.field">    
+                            <div *ngSwitchCase="'horainicio'">
+                                {{ horario.horainicio  | date: 'shortTime' }} 
+                            </div> 
+                            <div style="font-weight:bold;" *ngSwitchCase="'horafin'">
+                                {{ horario.horafin   | date: 'shortTime' }} 
+                            </div>  
+                            <div *ngSwitchDefault>
+                                {{ horario[col.field]  }}
+                            </div>
+                            </div>   
+                        </td>
+                    </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                    <tr>
+                        <td colspan="6">No existen horarios registradas</td>
+                    </tr>
+                    </ng-template> 
+            </p-table>  
+        </div>
+    </p-dialog> 
+</div>  
+  
+<!-- MODAL DETALLE CITA  -->
+<div *ngIf="modaldatosCitaEditar">
+    <p-dialog [header]="dataEventEdit.usuario " [(visible)]="modaldatosCitaEditar"  [modal]="true" [draggable]="false" [resizable]="true" >
+        <div class="card">  
+            <div>
+                <div class="formulario">   
+                    <strong>ESTADO:</strong>
+                    {{ dataEventEdit.estado }}  
+    
+                    <strong>TIPO </strong>
+                    {{dataEventEdit.tipo }}  
+    
+                    <strong> FECHA  :</strong>
+                    {{dataEventEdit.diaatencion }}  
+    
+                    <strong> FECHA Y HORA :</strong>
+                    {{dataEventEdit.horainicio | date : "shortTime" }} - {{dataEventEdit.horafin| date : "shortTime"  }}  
+                </div>  
+            </div>
+           
+            <br style="margin-bottom: 2%;">
+            
+            <div class="botones">
+                <button   
+                    class="p-button-sm" pButton type="button"
+                    icon="pi pi-times-circle"
+                    label="Cerrar" 
+                    style=" background-color: white; color: black;"
+                    (click)="modaldatosCitaEditar = false">  
+                </button>  
+                <button  
+                    *ngIf="dataEventEdit.estado != 'PAGADO'"
+                    class="p-button-sm" pButton type="button" 
+                    style="margin-left: 1%;"
+                    label="Pagar Cita" 
+                    (click)="onPagarCita()"
+                    icon="fas fa-coins">  
+                </button>   
+            </div> 
         </div>
     </p-dialog> 
 </div>  
  
-<div *ngIf="modalPagarcita">
-    <p-dialog header="PAGAR CITA" [(visible)]="modalPagarcita" [modal]="true" [draggable]="false" [resizable]="false"> 
-        <div class="card">  
+
+<!-- MODAL PAGAR CITA  -->
+<div *ngIf="modalPagarcita" >
+    <p-dialog header="PAGAR CITA" [(visible)]="modalPagarcita"  [modal]="true" [draggable]="false" [resizable]="true" >
+        <div class="card">   
+            <form [formGroup]="FormPago">
+                <div class="formulario2">   
+                    <strong>Dni *</strong>
+                    <input type="text" pInputText minlength="8" maxlength="8"  (keyup)="validateFormat($event)" formControlName="dni" placeholder="ingresar dni" class="p-inputtext-sm">  
+
+                    <strong>Email *</strong>
+                    <input type="text" pInputText formControlName="email" placeholder="ingresar email" class="p-inputtext-sm">  
             
-            <div class="formulario">   
-                <strong>Dni</strong>
-                <input type="text" pInputText minlength="8" maxlength="8" placeholder="ingresar dni" class="p-inputtext-sm">  
-
-                <strong>Email</strong>
-                <input type="text" pInputText placeholder="ingresar email" class="p-inputtext-sm">  
-        
-                <strong>Nro Tarjeta:</strong>
-                <input type="text" pInputText minlength="15" maxlength="15" placeholder="ingresar nro Tarjeta" class="p-inputtext-sm">  
-            </div>
-
-
-            <br>
-             
-            <div class="formulario2">   
-                <strong>Vencimiento:</strong>              
-                <div class="p-inputgroup">     
-                    <input type="text"  minlength="2" maxlength="2" style="margin-right: 1%; width: 50px;" pInputText placeholder="mes"  class="p-inputtext-sm">  
-                    <input type="text"  minlength="4" maxlength="4" style="width: 60px;"pInputText placeholder="año" class="p-inputtext-sm">  
-                </div> 
-
-                <strong>CVV:</strong>
-                <div class="p-inputgroup">                  
-                    <input type="text" style="width: 60px;" pInputText minlength="3" maxlength="3" placeholder="cvv" class="p-inputtext-sm">  
-                </div> 
-            </div>
-
-            <br>
-
-
-                <div *ngIf="!mostrarAdjuntar">   
+                    <strong>Nro Tarjeta *:</strong>
+                    <input type="text" pInputText minlength="16" maxlength="16" (keyup)="validateFormat($event)"  formControlName="nrotarjeta" placeholder="ingresar nro Tarjeta" class="p-inputtext-sm">  
+                  
+                    <strong>Fecha Vencimiento *:</strong>     
+                    <p-calendar class="extender" [(ngModel)]="dateCombo" view="month" dateFormat="mm/yy" appendTo="body" formControlName="fechavencimiento" [readonlyInput]="true" inputId="monthpicker"></p-calendar>  
+                    
+                    <strong>Cvv *:</strong> 
+                    <input type="text"  (keyup)="validateFormat($event)"  formControlName="cvv" pInputText minlength="3" maxlength="3" placeholder="cvv" class="p-inputtext-sm">  
+                     
+                </div>  
+  
+                <br> 
+                <!-- <div *ngIf="!mostrarAdjuntar">   
                     <p-fileUpload
                         name="myfiles[]"
                         chooseLabel="Adjuntar" 
@@ -165,48 +216,27 @@
                         [customUpload]="true"
                         (uploadHandler)="onUpload($event)"> 
                     </p-fileUpload> 
+                </div>  -->
+                <br>
+                <div class="botones">
+                    <button   
+                        class="p-button-sm" pButton type="button"
+                        icon="pi pi-times-circle"
+                        label="Cancelar" 
+                        style=" background-color: white; color: black;"
+                        (click)="modalPagarcita = false">  
+                    </button>  
+                    <button  
+                        class="p-button-sm" pButton type="button" 
+                        style="margin-left: 1%;"
+                        label="Pagar"
+                        [disabled]="!FormPago.valid"
+                        (click)="onPagoCitaConfirmada()"
+                        icon="fas fa-coins">  
+                    </button>   
                 </div> 
-         
-                  
-            <br>
-
-            <div class="botones">
-                <button   
-                class="p-button-sm"
-                pButton
-                type="button"
-                icon="pi pi-times-circle"
-                label="Cancelar" 
-                style=" background-color: white; color: black;"
-                (click)="modalPagarcita = false">  
-            </button>  
-            <button  
-                class="p-button-sm"
-                pButton
-                type="button" 
-                style="margin-left: 1%;"
-                label="Pagar"
-                (click)="onGrabarCita()"
-                icon="fas fa-coins">  
-            </button>  
-            
-            </div>
-           
+            </form>
         </div>
     </p-dialog> 
 </div>  
  
-<div *ngIf="modaldatosCitaEditar">
-    <p-dialog header="EDITAR CITA" [(visible)]="modaldatosCitaEditar" [modal]="true" [draggable]="false" [resizable]="false"> 
-        <div class="card">  
-            
-            <h2> HOLA EDITAR CONTENIDO DEL ITEMS</h2>
-            <br>
-            <h3>
-                {{datosCitaEditar.title }}  
-            </h3>
-           
-        </div>
-    </p-dialog> 
-</div>  
-

@@ -1,121 +1,87 @@
+<div class="Margintabla">
+    <div class="contenidoTable card">   
+        <h2 class="botones"> CREAR DOCTOR</h2> 
 
- 
-    <div class="Margintabla">
-        <div class="contenidoTable card"> 
-     
-            <h2 class="botones"> CREAR DOCTOR</h2> 
+        <form [formGroup]="Form" class="form" >    
+            <div class="formulario">   
+                <strong>Colegiatura *</strong>  
+                <input type="text" pInputText minlength="2" maxlength="8"  formControlName="colegiatura" class="p-inputtext-sm" placeholder="ingresa colegiatura">   
 
-                <div class="stepsdemo-content"> 
-                    <div>
-                        <form [formGroup]="Form" class="form" >   
-                       
-                         
-                             <div class="formulario">   
-                                <strong>Colegiatura *</strong>  
-                                <input type="text" pInputText minlength="2" maxlength="8"  formControlName="colegiatura" class="p-inputtext-sm" placeholder="ingresa colegiatura">   
-  
-                                <strong>Nro Documento *</strong>  
-                                <input type="text" pInputText minlength="8" maxlength="8" (keypress)="validateFormat($event)" formControlName="usuario" class="p-inputtext-sm" placeholder="ingresa dni">   
- 
-                                <strong>Nombres*</strong>
-                                <input type="text" pInputText formControlName="nombres" class="p-inputtext-sm" placeholder="ingresar tus nombres">     
-                            
-                                <strong>Apellidos*:</strong> 
-                                <div class="p-inputgroup">                  
-                                    <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
-                                    <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
-                                </div>
-                             </div>
+                <strong>Nro Documento *</strong>  
+                <input type="text" pInputText minlength="8" maxlength="8" (keypress)="validateFormat($event)" formControlName="usuario" class="p-inputtext-sm" placeholder="ingresa dni">   
 
-                             <div class="formulario2">   
-                                <strong>Fec. Nacimiento*:</strong>     
-                                    <p-calendar   
-                                        readonlyInput="true"
-                                        [showIcon]="true"
-                                        dateFormat="dd/mm/yy"
-                                        formControlName="fechaNacimiento"
-                                    ></p-calendar> 
-        
-                                <strong>Sexo*:</strong>
-                                    <p-dropdown
-                                        class="extender"
-                                        [options]="arraySexo" 
-                                        formControlName="sexo"
-                                        placeholder="selecciona"
-                                        optionLabel="nombre"
-                                        [showClear]="true"
-                                    ></p-dropdown>
-                             </div>
-
-
-                             <div class="formulario">  
-                                <strong>Direccion*:</strong>
-                                <input type="text" pInputText formControlName="direccion" class="p-inputtext-sm"  placeholder="ingresar una direccion">  
-                                
-                                <strong>Correo*</strong>
-                                <input type="email" pInputText formControlName="correo" class="p-inputtext-sm" placeholder="ingresar el corrreo">  
-                                
-                                <strong>Telefono*</strong>
-                                <input type="text" pInputText maxlength="9"  (keypress)="validateFormat($event)" formControlName="telefono" class="p-inputtext-sm" placeholder="ingresar el telefono">  
-                                 
-                            </div> 
-
-                            <div class="formulario3">  
-                                <strong>Contraseña*:</strong>
-                                <div>
-                                    <span class="p-input-icon-right" style="width: 100%;">
-                                        <i toggle="#password-field"
-                                        [class]="cambiarIconEye"
-                                        (click)="viewPassword(clave)"> </i>
-                                        <input type="password" style="display: grid" minlength="2" maxlength="6"  #passwordField pInputText placeholder="ingrese contraseña" formControlName="password"  #clave class="p-inputtext-sm">    
-                                    </span>
-                                </div>  
-
-                                <strong>Tipo Admin*:</strong>
-                                <p-dropdown
-                                    class="extender"
-                                    [options]="arraytipoAdmin" 
-                                    formControlName="isadmin"
-                                    placeholder="selecciona"
-                                    optionLabel="nombre"
-                                    [showClear]="true"
-                                ></p-dropdown>
-                            </div>
-
-                
-                          
-                        </form>   
-                    </div> 
-     
+                <strong>Nombres*</strong>
+                <input type="text" pInputText formControlName="nombres" class="p-inputtext-sm" placeholder="ingresar tus nombres">     
+            
+                <strong>Apellidos*:</strong> 
+                <div class="p-inputgroup">                  
+                    <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
+                    <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
                 </div>
-      
-     
-            <div class="botones">
-              
-    
-                <button   
-                    class="p-button-sm p-button-rounded mx-2"
-                    pButton
-                    type="button"
-                    style=" background-color: white; color: black; margin-right: 1%;"
-                    icon="pi pi-times-circle"
-                    label="Cancelar" >  
-                </button>  
-
-                <button  
-                    class="p-button-sm p-button-rounded mx-2"
-                    pButton
-                    type="button"
-                    [disabled]="Form.invalid" 
-                    label="{{ (dataMedico) ? 'Actualizar' : 'Grabar' }}"
-                    (click)="onGuardar()"
-                    icon="pi pi-check-circle">  
-                </button>  
-
             </div>
-        </div>  
-      
-    </div>
+
+            
+            <strong>Fec. Nacimiento*:</strong>     
+            <p-calendar   
+                readonlyInput="true"
+                [showIcon]="true"
+                dateFormat="dd/mm/yy"
+                formControlName="fechaNacimiento"
+            ></p-calendar> 
+
+            <strong>Sexo*:</strong>
+            <p-dropdown
+                class="extender"
+                [options]="arraySexo" 
+                formControlName="sexo"
+                placeholder="selecciona"
+                optionLabel="nombre"
+                [showClear]="true"
+            ></p-dropdown>
+             
+            <strong>Direccion*:</strong>
+            <input type="text" pInputText formControlName="direccion" class="p-inputtext-sm"  placeholder="ingresar una direccion">  
+            
+            <strong>Correo*</strong>
+            <input type="email" pInputText formControlName="correo" class="p-inputtext-sm" placeholder="ingresar el corrreo">  
+            
+            <strong>Telefono*</strong>
+            <input type="text" pInputText maxlength="9"  (keypress)="validateFormat($event)" formControlName="telefono" class="p-inputtext-sm" placeholder="ingresar el telefono">  
+                 
+            <strong>Contraseña*:</strong> 
+            <span class="p-input-icon-right" style="width: 100%;">
+                <i toggle="#password-field"
+                [class]="cambiarIconEye"
+                (click)="viewPassword(clave)"> </i>
+                <input type="password" style="display: grid" minlength="2" maxlength="6"  #passwordField pInputText placeholder="ingrese contraseña" formControlName="password"  #clave class="p-inputtext-sm">    
+            </span> 
+            
+        </form>   
+        
+        <div class="botones"> 
+            <button   
+                class="p-button-sm p-button-rounded mx-2"
+                pButton
+                type="button"
+                style=" background-color: white; color: black; margin-right: 1%;"
+                icon="pi pi-times-circle"
+                label="Cancelar" >  
+            </button>  
+
+            <button  
+                class="p-button-sm p-button-rounded mx-2"
+                pButton
+                type="button"
+                [disabled]="Form.invalid" 
+                label="{{ (dataMedico) ? 'Actualizar' : 'Grabar' }}"
+                (click)="onGuardar()"
+                icon="pi pi-check-circle">  
+            </button>  
+
+        </div>
+    </div>  
     
+</div>
+
      
     

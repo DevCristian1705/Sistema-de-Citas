@@ -23,7 +23,6 @@ export class CrearDoctorComponent implements OnInit {
     private apiService : DoctorService
   ) {
     this.builform(); 
-  
    }
 
    private builform(): void {
@@ -38,8 +37,7 @@ export class CrearDoctorComponent implements OnInit {
       direccion: new FormControl(null, Validators.required),  
       correo: new FormControl(null, Validators.email),  
       telefono: new FormControl(null, Validators.required),  
-      password : new FormControl(null, Validators.required),
-      isadmin : new FormControl(null, Validators.required)
+      password : new FormControl(null, Validators.required), 
     });
   }
  
@@ -63,7 +61,7 @@ export class CrearDoctorComponent implements OnInit {
       telefono: data.telefono, 
       usuario: data.usuario,
       password: data.password,
-      isadmin : data.isadmin.codigo,
+      isadmin : false,
       isdoctor : true, 
     }
     console.log(newDoctor);

@@ -24,21 +24,15 @@ export class AppMenuComponent implements OnInit {
     ngOnInit() {
       this.model = [ 
           { 
-            label: 'Usuario', icon: 'pi pi-fw pi-star-fill',  
+            label: 'MENÚ', icon: 'pi pi-fw pi-star-fill',  
             items: [
-                {label: 'Registro de citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cita']}, 
-                {label: 'Cambio contraseña', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/medico']}, 
-                {label: 'Registro de Doctores', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/doctor'], visible: this.dataDesencryptada.isadmin}, 
-                {label: 'Registro dias Atencion', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/diasAtencion'], visible: this.dataDesencryptada.isdoctor}, 
+                {label: 'Registro de citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cita'], visible: !this.dataDesencryptada.isdoctor },  
+                {label: 'Cambio contraseña', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cambiopassword'] }, 
+                {label: 'Registro de Doctores', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/doctor'], visible: this.dataDesencryptada.isadmin }, 
+                {label: 'Registro dias Atencion', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/diasAtencion'],  visible: this.dataDesencryptada.isdoctor || this.dataDesencryptada.isadmin},  
+                {label: 'Historial', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/historial']},   
             ]
-          }, 
-        //   { 
-        //     label: 'Cambio contraseña', icon: 'pi pi-fw pi-star-fill', routerLink: ['/modulos/home/almacen/lineas'], 
-        //     //   label: 'Usuarios', icon: 'pi pi-fw pi-star-fill',
-        //     //   items: [
-        //     //       {label: 'Crear usuario', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/almacen/lineas']}, 
-        //     //   ]
-        //   }, 
+          },  
       ];
   }
 

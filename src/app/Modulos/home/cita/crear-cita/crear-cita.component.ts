@@ -1,13 +1,14 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core'; 
 import { FormControl, FormGroup, Validators } from '@angular/forms'; 
+import { Router } from '@angular/router';
 import { CalendarOptions } from '@fullcalendar/core';
 import { PrimeNGConfig } from 'primeng/api';
 import { IUsuario } from 'src/app/Auth/interface/auth.interface';
 import { ConstantesGenerales, InterfaceColumnasGrilla } from 'src/app/Shared/interfaces/shared.interfaces';
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';  
-import { DoctorService } from '../../doctor/service/doctor.service'; 
-import { HorarioService } from '../../horario/service/horario.service'; 
+import { DiasAtencionService } from '../../diasatencion/service/diasatecion.service';
+import { DoctorService } from '../../doctor/service/doctor.service';  
 import { CitasService } from '../service/citas.service';
 
 @Component({
@@ -16,7 +17,7 @@ import { CitasService } from '../service/citas.service';
   styleUrls: ['./crear-cita.component.scss']
 })
 export class CrearCitaComponent implements OnInit {
-  modalCita: boolean = false;
+  modalHorarioCita: boolean = false;
   mostrarCalendario: boolean = false;
   modalPagarcita: boolean = false;
   modaldatosCitaEditar: boolean = false;
@@ -29,7 +30,9 @@ export class CrearCitaComponent implements OnInit {
 
   dataCita : any[]=[];
   fechaCitasolicitada :any
-  citaForm: FormGroup; 
+  FormCita: FormGroup; 
+  FormPago : FormGroup;
+  dateCombo : Date;
   es = ConstantesGenerales.ES_CALENDARIO
   arrayDoctores : IUsuario[]; 
   arrayTipoConsulta : any []= [];
@@ -39,20 +42,29 @@ export class CrearCitaComponent implements OnInit {
   diaValidRange : any;
 
   cols: InterfaceColumnasGrilla[] = []; 
-  colsDiasAtencion: InterfaceColumnasGrilla[] = []; 
+  colsDiasAtencion: InterfaceColumnasGrilla[] = [];   
   precioConsultaSeleccionada: string = "";
   dataDesencryptada : any = JSON.parse(sessionStorage.getItem('datosUsuario'))
-  calendarOptions: CalendarOptions   
-  CantidadHorarioDisponible : number = 0;
+  calendarOptions: CalendarOptions    
   listaCitas : any[]=[];
+
+  idTipoCitaSeleccionado : number = 0; 
+  idDiaAtencionSeleccionado : number = 0; 
+  idEstadoCitaSeleccionado : number = 0;
+  idDoctorSelccionado : number = 0;
+  idcita: number = 0; 
+  ColorDelEvent : string = 'yellow'
+  dataEventEdit :any = [];
+
 
   constructor(
     private swal : MensajesSwalService,
-    private apiService: DoctorService,
-    private apiHorario: HorarioService,
-    private apiCitas: CitasService,
+    private apiService: CitasService, 
+    private apidiasAtencion: DiasAtencionService,
+    private apiDoctor: DoctorService,
     private config : PrimeNGConfig,
-    private formatDate : DatePipe
+    private formatDate : DatePipe,
+    private router : Router
   ){
     this.builform(); 
       this.arrayTipoConsulta = [
@@ -62,41 +74,114 @@ export class CrearCitaComponent implements OnInit {
   }
 
   private builform(): void {
-    this.citaForm = new FormGroup({
+    this.FormCita = new FormGroup({
       odontologo: new FormControl( null),
       paciente: new FormControl( null, Validators.required), 
       horarioInicio: new FormControl( null, Validators.required), 
       horarioFin: new FormControl(null, Validators.required), 
     });
+
+    this.FormPago = new FormGroup({
+      dni: new FormControl( null),
+      email: new FormControl( null, Validators.required), 
+      nrotarjeta: new FormControl( null, Validators.required), 
+      fechavencimiento: new FormControl(null, Validators.required),  
+      cvv: new FormControl(null, Validators.required),  
+    });
+
   }
  
   ngOnInit() {
     this.config.setTranslation(this.es)
     this.onCargarDoctores(); 
-   
-    this.cols = [  
-      { field: 'idcita', header: 'id', visibility: false  },  
-      { field: 'horainicio', header: 'Hora Inicio', visibility: true},  
-      { field: 'horafin', header: 'Hora Fin', visibility: true},   
-    ];
-    this.cols = this.cols.filter(x => x.visibility === true)
 
     this.colsDiasAtencion = [  
       { field: 'iddiasatencion', header: 'id', visibility: false  },
-      { field: 'nombredia', header: 'Dia de la Semana', visibility: true  },  
-      { field: 'diaatencion', header: 'Fecha', visibility: true,formatoFecha: ConstantesGenerales._FORMATO_FECHA_VISTA }, 
-    ];
-
+      { field: 'nombredia', header: 'DIA DE ATENCION', visibility: true  },  
+      { field: 'diaatencion', header: 'FECHA', visibility: true,formatoFecha: ConstantesGenerales._FORMATO_FECHA_VISTA }, 
+    ]; 
     this.colsDiasAtencion = this.colsDiasAtencion.filter(x => x.visibility === true)
-   
+    
+    this.cols = [  
+      { field: 'iddiasatencion', header: 'id', visibility: false  },  
+      { field: 'horainicio', header: 'HORA INICIO', visibility: true},  
+      { field: 'horafin', header: 'HORA FIN', visibility: true},   
+    ];
+    this.cols = this.cols.filter((x) => x.visibility === true)
+
   }
  
+  onCargarDoctores(){
+    this.apiDoctor.getDoctores().subscribe((resp)=> {  
+      if(resp){
+        this.arrayDoctores = resp.data; 
+      }
+    });
+  }
 
+  onSeleccionoDoctor(event :any){ 
+    if(!event.value){   
+      this.mostrardiasAtencion = false;
+      this.mostrarCalendario = false;
+      this.idDoctorSelccionado = 0;
+      this.listaCitas = [];
+    }else{ 
+      if(this.idDoctorSelccionado != event.value.idusuario){ 
+        this.onCargarDiasAtencion(event.value.idusuario);   
+        this.onCargarHorariosDisponibles(event.value.idusuario);  
+        this.mostrardiasAtencion = true;  
+        this.mostrarCalendario = false;
+        this.listaCitas = [];
+      }else{
+        return;
+      }
+      
+    }
+  }
+
+  onCargarDiasAtencion(idusuario){ 
+    this.swal.mensajePreloader(true);
+    this.apidiasAtencion.getDiasAtencion(idusuario).subscribe((resp)=> {   
+      if(resp){  
+        this.onCargarListacitas();
+        this.listaDiasAtencion = [...new Map(resp.data.map(item => [item['diaatencion'], item])).values()];
+        this.swal.mensajePreloader(false);
+      }
+    });
+  }
+
+  onCargarHorariosDisponibles(idusuariodoctor){
+    this.apiService.getHorariosDisponibles(idusuariodoctor).subscribe((resp)=> {   
+      if(resp){ 
+        this.listaHorarios = resp.data;
+      }
+    });
+  }
+  
+  handleEventClick(clickInfo) {   
+    if(clickInfo.event._def.extendedProps){
+      this.dataEventEdit = clickInfo.event._def.extendedProps;
+      this.idTipoCitaSeleccionado = this.dataEventEdit.idtipo;
+      this.idDiaAtencionSeleccionado = this.dataEventEdit.iddiasatencion;
+      this.idcita = this.dataEventEdit.idcita;
+      this.modaldatosCitaEditar = true;  
+    }
+
+  }
+  
+  onSeleccionaDiaDisponible(event : any){  
+    if(event){     
+      this.diaValidRange = { start:  event.data.diaatencion, end: event.data.diaatencion} 
+      this.mostrarCalendario = true; 
+      this.configCalendario();
+    }
+  }
+ 
   configCalendario(){ 
     this.calendarOptions = {
       initialView: 'dayGridMonth',
       locale : 'es-Pe',
-      timeZone: 'es',
+      timeZone: 'America/Lima',
       headerToolbar: {
         left: 'prev,next',
         center: 'title',
@@ -108,6 +193,7 @@ export class CrearCitaComponent implements OnInit {
         year: 'numeric',
       },
       // COLOR DEL EVENTO ITEMS 
+      eventColor: this.ColorDelEvent,
       dateClick: this.handleDateClick.bind(this), 
       events: this.listaCitas,  
       eventClick: this.handleEventClick.bind(this),
@@ -118,104 +204,64 @@ export class CrearCitaComponent implements OnInit {
        
     };  
   }
- 
-  handleEventClick(clickInfo) {  
-    let horainicioReal = new Date(new Date(clickInfo.event._instance.range.start).setHours(clickInfo.event._instance.range.start.getHours() + 5)); 
-    let horafinReal = new Date(new Date(clickInfo.event._instance.range.end).setHours(clickInfo.event._instance.range.end.getHours() + 5)); 
-  
-    let hi = this.formatDate.transform(horainicioReal, ConstantesGenerales._FORMATO_HORA)
-    let hf = this.formatDate.transform(horafinReal, ConstantesGenerales._FORMATO_HORA)
-     this.swal.mensajeInfoCita(clickInfo.event._def.title, hi,  hf).then((response) => {
-        if (response.isConfirmed) { 
-          return  
-        } 
-      })   
 
-  }
- 
-  onCargarDoctores(){
-    this.apiService.getDoctores().subscribe((resp)=> {  
-      if(resp){
-        this.arrayDoctores = resp.data;
-      }
-    });
-  }
-
-
-  onCargarDiasAtencion(idusuario){ 
-    this.apiHorario.getDiasAtencion(idusuario).subscribe((resp)=> {  
-      if(resp){
-        this.listaDiasAtencion = resp.data
-      }
-    });
-  }
-
-
-  onCargarHorariosDisponibles(idusuario : number){  
-    this.apiHorario.getHorarios(idusuario).subscribe((resp)=> { 
-      if(resp){
-        this.CantidadHorarioDisponible =  resp.data.length;
-        this.listaHorarios = resp.data
-      }
-    });
-  }
-
-
- 
-
-  onSeleccionoDoctor(event :any){ 
-    if(event.value){   
-      this.mostrardiasAtencion = true; 
-      this.onCargarListacitas(event.value.idusuario);  
-      this.onCargarDiasAtencion(event.value.idusuario);  
-      this.onCargarHorariosDisponibles(event.value.idusuario);  
-    }else{ 
-      this.mostrardiasAtencion = false;
-      this.mostrarCalendario = false;
+  onCargarListacitas(){
+    const filter = {
+      idusuario : +this.dataDesencryptada.idusuario,
+      idusuariodoctor : this.idDoctorSelccionado, //iddoctor,
+      fecha : null
     }
-  }
-
-  onCargarListacitas(iddoctor: number){
-    this.apiCitas.getCitas(+this.dataDesencryptada.idusuario, iddoctor).subscribe((resp)=> {  
+    this.listaCitas = [];
+    this.apiService.getHistorialCitas(filter).subscribe((resp)=> {  
       if(resp.data){
         let  ObjCitas : any = resp.data
           ObjCitas.forEach(element => {
-          this.listaCitas.push({title: element.usuario, date: element.fecha , start: element. horainicio, end: element.horafin, id: element.idcita})
-        });   
+          //this.listaDiasAtencion = [...new Map(resp.data.map(item => [item['diaatencion'], item])).values()]; 
+          if(element.estado === 'RESERVADO'){
+            this.ColorDelEvent = 'yellow'
+          }else if(element.estado === 'PAGADO'){
+            this.ColorDelEvent = 'green'
+          }else{
+            this.ColorDelEvent = 'red'
+          }
+         let idTipoCita = this.arrayTipoConsulta.find(x => x.nombre === element.tipocita)
+          this.listaCitas.push(
+            {
+              title: element.tipocita, 
+              date: element.diaatencion, 
+              start: element.horainicio, 
+              end: element.horafin, 
+              color : this.ColorDelEvent,
+              usuario: element.usuario,
+              diaatencion : element.fechacita,
+              horainicio: element.horainicio, 
+              horafin: element.horafin, 
+              idcita: element.idcita, 
+              idusuario: element.idusuario, 
+              estado : element.estado,
+              tipo : element.tipocita,
+              idtipo : idTipoCita.codigo,
+              iddiasatencion: element.iddiasatencion
+            })
+        });  
       }
     }); 
   }
-
-
+ 
   handleDateClick(arg) {  
    this.fechaCitasolicitada = arg.dateStr;
    this.precioConsultaSeleccionada = null
-   this.modalCita= true;
+   this.modalHorarioCita= true;
   }
- 
-
+  
   onSeleccionarTipoConsulta(event: any){  
-    if(!event.value){
+    if(!event.value){ 
       this.precioConsultaSeleccionada = null
     }else{
+      this.idTipoCitaSeleccionado = event.value.codigo;
       this.precioConsultaSeleccionada = event.value.precio
     }
-  }
- 
-  onSeleccionaDiaDisponible(event : any){ 
-    if(event){ 
-      if(this.CantidadHorarioDisponible){
-        let diaDisponible = event.data.diaatencion
-        let dia = this.formatDate.transform(diaDisponible, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA)
-        this.diaValidRange = { start:  dia, end: dia} 
-        this.mostrarCalendario = true;
-        this.configCalendario();
-      }else{
-        this.swal.mensajeInformacion("No quedan horarios disponibles");
-      }
-      
-    } 
-  }
+  } 
 
   onSeleccionarHorario(event : any){    
     if(!this.precioConsultaSeleccionada){
@@ -223,21 +269,30 @@ export class CrearCitaComponent implements OnInit {
       return;
     }
     if(event){ 
+      this.idDiaAtencionSeleccionado = event.data.iddiasatencion
       let fechacitaFormat = this.formatDate.transform(this.fechaCitasolicitada, ConstantesGenerales._FORMATO_FECHA_VISTA)
-      this.swal.mensajePreguntaCita(fechacitaFormat,event.data.horainicio,event.data.horafin).then((response) => {
-        if (response.isConfirmed) {   
-          this.onPagarCita(event.data);
+      let hi = this.formatDate.transform(event.data.horainicio, ConstantesGenerales._FORMATO_SOLO_HORA)
+      let hf = this.formatDate.transform(event.data.horafin, ConstantesGenerales._FORMATO_SOLO_HORA) 
+      this.swal.mensajePreguntaCita(fechacitaFormat, hi , hf).then((response) => { 
+        if(response.isConfirmed) {   //CONFIRME  === RESERVAR  
+          this.idEstadoCitaSeleccionado = 1
+          this.onGrabarCita();
+        } 
+        if(response.isDenied) {    //DENIED  === RESERVAR  Y PAGAR  
+          this.onPagarCita();
         } 
       }) 
     }
   }
 
-  onPagarCita(event : any){  
-    this.agregarCitaCalendario = event; 
+  onPagarCita(){   
+    this.FormPago.patchValue({
+      dni: this.dataDesencryptada.dni,
+      email: this.dataDesencryptada.correo
+    })
     this.modalPagarcita = true; 
   }
-
-
+ 
   onUpload(event : any) {    
     if(event){
     this.mostrarEnviarNotificacion = true;
@@ -261,29 +316,57 @@ export class CrearCitaComponent implements OnInit {
         this.mostrarAdjuntar = false;  
     } 
   }
- 
-  
-  onGrabarCita(){   
-     
-    let fechacitaFormat = this.formatDate.transform(this.fechaCitasolicitada, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA)
 
-    const nuevaCita = {
-      title:this.dataDesencryptada.usuario + ' ' +this.dataDesencryptada.apePaterno + ' ' +this.dataDesencryptada.apeMaterno ,
-      date: this.fechaCitasolicitada,
-      start: fechacitaFormat+'T'+  this.agregarCitaCalendario.horainicio,
-      end: fechacitaFormat+'T'+  this.agregarCitaCalendario.horafin
-    } 
-    console.log('fechacitaFormat',nuevaCita);
-    this.listaCitas.push(nuevaCita)
-    // let citas : any[] = []
-    // citas.push(nuevaCita) 
-    // citas = citas.concat(this.calendarOptions.events)
-    // this.calendarOptions = {...this.calendarOptions, ...{events: citas}}; 
-    this.modalCita =false;
-    this.modalPagarcita =false; 
+  onPagoCitaConfirmada(){
+    this.idEstadoCitaSeleccionado = 2
+    this.onGrabarCita();
+  }
+    
+  onGrabarCita(){    
+    const data = {
+      idcita : this.idcita ? this.idcita : 0,
+      idusuario: +this.dataDesencryptada.idusuario,
+      iddiasatencion : this.idDiaAtencionSeleccionado,
+      idestadocita : this.idEstadoCitaSeleccionado,  //** 1 => RESERVADO 2=> PAGADO 3 => ELIMINADO **//
+      idtipocita: this.idTipoCitaSeleccionado,
+    }
+ 
+    this.apiService.crear(data).subscribe((resp => {
+      if(resp.data){
+        this.swal.mensajeExito('Se grabaro lo cita correctamente!');
+        this.modalHorarioCita =false;
+        this.modalPagarcita =false; 
+        this.router.navigate(['/modulos/home/historial'])
+        this.LimpiasCampos();
+      }else{
+        this.swal.mensajeError(resp.mensaje);
+      }
+    }))
+   
+  }
+  LimpiasCampos(){
+    this.idcita = null,
+    this.idDiaAtencionSeleccionado = null,
+    this.idEstadoCitaSeleccionado = null, 
+    this.idTipoCitaSeleccionado = null
   }
 
-
-   
-
+  validateFormat(event) {
+    let key;
+    if (event.type === 'paste') {
+      key = event.clipboardData.getData('text/plain');
+    } else {
+      key = event.keyCode;
+      key = String.fromCharCode(key);
+    }
+    const regex = /[0-9]|\./;
+     if (!regex.test(key)) {
+      event.returnValue = false;
+       if (event.preventDefault) {
+        event.preventDefault();
+       }
+     }
+    }
+    
+ 
 }

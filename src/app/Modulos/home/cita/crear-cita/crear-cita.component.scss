@@ -1,49 +1,26 @@
-.filtro{
-    text-align: center;
-    width: 80%;
-    
-    @media (max-width : 700px){
-        width: 100%;
-   }
-}
-
-.Alinear{
-    align-items: center;
-}
-
+ 
 .formulario{
     display: grid;
-    grid-gap: 1rem;
-    gap: 1rem;
+    grid-gap: 0.5rem;
     grid-auto-rows: auto;
     grid-template-columns: 8rem 1fr;   
     align-items: center;
     @media (max-width: 800px) {  
-       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+       grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
     }
  }
-
- .formulario2{
+ 
+.formulario2{
     display: grid;
-    grid-gap: 1rem;
-    gap: 1rem;
+    grid-gap: 0.5rem;
     grid-auto-rows: auto;
-    grid-template-columns:  8rem 8rem 2rem 5rem;
+    grid-template-columns: 8rem 1fr;   
     align-items: center;
     @media (max-width: 800px) {  
-       grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr));
+       grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
     }
  }
-
- 
-::ng-deep  .SizeModal{
-    width: 60vw !important;
-    
-    @media (max-width:700px) {
-        width: 90vw !important;
-    }
-
-}
+  
 
 .ElegirCita{
     display: grid;
@@ -51,3 +28,34 @@
     align-items: center;
     gap : 2% ;
 }
+
+.ColoresEstados{
+    text-align: center;
+    display: grid;
+    grid-template-columns: 10rem 10rem 10rem;
+    justify-content: center;
+    margin: 2%;
+
+    @media (max-width: 800px) {  
+        display: inline-flex;
+     }
+
+    .ColorReservado{
+        background-color: yellow;
+        border-radius: 15px;
+        border: solid 1px;
+    }
+    .ColorPagado{
+        background-color: green;
+        border-radius: 15px;
+        color: white;
+        margin: 0% 2% 0% 2%;
+    }
+    .ColorCancelado{
+        background-color: red;
+        border-radius: 15px;
+        color: white
+    }
+}
+
+ 

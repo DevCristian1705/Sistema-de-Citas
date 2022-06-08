@@ -18,7 +18,8 @@ export class ConstantesGenerales {
     public static _FORMATO_DDMMYYYY_HHMMSS = 'dd/MM/yyyy h:mm a'; 
     public static _FORMATO_FECHA_VISTA = 'dd/MM/yyyy'; 
     public static _FORMATO_FECHA_BUSQUEDA = 'yyyy-MM-dd';  
-    public static _FORMATO_HORA = 'HH:mm:ss'; 
+    public static _FORMATO_HORA = 'HH:mm'; 
+    public static _FORMATO_SOLO_HORA = 'hh:mm a'; 
     // NOMBRES DE LAS VARIABLES QUE SE ALOJARAN EN LOCAL STORAGE
   
     public static ES_CALENDARIO = {

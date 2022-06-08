@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { IAuth } from '../interface/auth.interface'; 
-// import * as CryptoJS from 'crypto-js';  
+import * as CryptoJS from 'crypto-js';  
 import { switchMap } from 'rxjs/operators';
 
 
@@ -21,47 +21,47 @@ export class AuthService {
     return localStorage.getItem('token') ?? '';
   }
  
-  //private claveCifrar = ''; 
+  private claveCifrar = ''; 
   
   constructor(
     private http : HttpClient
   ) { }
  
-  // cifrarData(data: any): any {
-  //   try {
-  //     if (!data) {
-  //       return '';
-  //     }
-  //     if (data.toString() === '') {
-  //       return '';
-  //     } 
-  //     return CryptoJS.AES.encrypt(JSON.stringify(data), this.claveCifrar).toString();
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+  cifrarData(data: any): any {
+    try {
+      if (!data) {
+        return '';
+      }
+      if (data.toString() === '') {
+        return '';
+      } 
+      return CryptoJS.AES.encrypt(JSON.stringify(data), this.claveCifrar).toString();
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
-  // desCifrarData(data: string): any {
-  //   let dataDesencriptada: any;
-  //   try {
-  //     if (!data) {
-  //       return '';
-  //     }
-  //     if (data.toString() === '') {
-  //       return '';
-  //     }
+  desCifrarData(data: string): any {
+    let dataDesencriptada: any;
+    try {
+      if (!data) {
+        return '';
+      }
+      if (data.toString() === '') {
+        return '';
+      }
 
-  //     const bytes = CryptoJS.AES.decrypt(data, this.claveCifrar);
-  //     if (bytes.toString()) {
-  //       dataDesencriptada = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
-  //       return dataDesencriptada;
-  //     }
-  //     return data;
+      const bytes = CryptoJS.AES.decrypt(data, this.claveCifrar);
+      if (bytes.toString()) {
+        dataDesencriptada = JSON.parse(bytes.toString(CryptoJS.enc.Utf8));
+        return dataDesencriptada;
+      }
+      return data;
 
-  //   } catch (e) {
-  //     console.error(e);
-  //   }
-  // }
+    } catch (e) {
+      console.error(e);
+    }
+  }
 
   
 

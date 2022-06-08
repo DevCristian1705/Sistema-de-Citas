@@ -27,13 +27,20 @@ $gutter: 1rem; //for primeflex grid system
   justify-self: center;
   z-index: 999;
 }
+ 
+
 
 .p-dropdown { 
   font-size: 15px;
   height: 31px; 
 }
 
- .p-fluid .p-calendar { 
+.p-fluid .p-calendar { 
+  height: 31px;
+}
+
+
+.p-calendar { 
   height: 31px;
 }
 
@@ -48,3 +55,61 @@ $gutter: 1rem; //for primeflex grid system
 .p-dialog .p-dialog-footer {
   padding: 0  !important;
 }
+
+
+.contenidoTable{
+  height: 95vh; 
+  @media (max-width: 700px) {  
+    height: auto;
+}
+
+}
+
+
+.form{
+  margin: 5% 20% 5% 20%;
+}
+
+
+.filtroCombo{
+  text-align: center;
+  width: 80%; 
+  @media (max-width : 700px){
+      width: 100%;
+ }
+}
+
+.Alinear{
+  align-items: center;
+}
+
+.AlinearBotonForm{ 
+  display: flex;
+  align-items: end;
+}
+ 
+
+.p-datatable .p-datatable-tbody > tr > td { 
+  padding: 0.8rem 0.8rem !important;
+} 
+
+
+
+.TablaGeneral   .p-datatable .p-datatable-tbody > tr > td {
+  text-align: center; 
+}
+
+.TablaGeneral  .p-datatable .p-datatable-tbody > tr { 
+  border-bottom: solid 1.5px;
+  border-top: solid 1.5px;
+}
+
+.TablaGeneral  .p-datatable .p-datatable-thead > tr > th  {
+  text-align: center; 
+  color: white;
+  background: #147ABC;
+}
+
+
+
+ 

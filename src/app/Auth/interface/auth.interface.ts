@@ -9,7 +9,7 @@ export interface IAuth{
 export interface IUsuario {
     idusuario : number,
     usuario: string
-    nombres: string,
+    nombres: string, 
     apellidoPaterno: string,
     apellidoMaterno: string, 
     fechaNacimiento: string, 
