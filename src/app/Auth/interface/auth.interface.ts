@@ -13,6 +13,7 @@ export interface IUsuario {
     apellidoPaterno: string,
     apellidoMaterno: string, 
     fechaNacimiento: string, 
+    nombrecompleto: string,
     sexo: string, 
     direccion: string, 
     correo: string, 

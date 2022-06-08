@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { PrimeNGConfig } from 'primeng/api';
 import { IUsuario } from 'src/app/Auth/interface/auth.interface';
 import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service'; 
@@ -11,16 +12,17 @@ import { DoctorService } from '../service/doctor.service';
   styleUrls: ['./crear-doctor.component.scss']
 })
 export class CrearDoctorComponent implements OnInit {
-
  
-  @Input() dataMedico : number;
   Form : FormGroup;
   arraySexo: any[] = ConstantesGenerales.arraySexo
   arraytipoAdmin: any[] = ConstantesGenerales.arraytipoAdmin
   cambiarIconEye: string = "fa fa-eye"; 
+  es = ConstantesGenerales.ES_CALENDARIO;
+  
   constructor(
     private swal : MensajesSwalService, 
-    private apiService : DoctorService
+    private apiService : DoctorService,
+    private config : PrimeNGConfig
   ) {
     this.builform(); 
    }
@@ -43,6 +45,7 @@ export class CrearDoctorComponent implements OnInit {
  
 
   ngOnInit(): void {   
+    this.config.setTranslation(this.es);
   }
    
 
@@ -55,6 +58,7 @@ export class CrearDoctorComponent implements OnInit {
       apellidoPaterno: data.apellidoPaterno,
       apellidoMaterno: data.apellidoMaterno, 
       fechaNacimiento: data.fechaNacimiento, 
+      nombrecompleto : data.nombres + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno, 
       sexo: data.sexo.codigo, 
       direccion: data.direccion, 
       correo: data.correo, 

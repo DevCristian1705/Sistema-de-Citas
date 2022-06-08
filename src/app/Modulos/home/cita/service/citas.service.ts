@@ -29,7 +29,12 @@ export class CitasService {
     return this.http.get<IListaHirtoialCita>(`${this.api}/api/cita/listar-historial`, { params: params });
   }
   
-  getHorariosDisponibles(idusuariodoctor: number ):Observable<IHorariosDisponibles>{ 
-    return this.http.get<IHorariosDisponibles>(`${this.api}/api/diasatencion/listar-horarios/${idusuariodoctor}`);
+  getHorariosDisponibles(data: any ):Observable<IHorariosDisponibles>{ 
+    let params = new HttpParams(); 
+    params = params.append('idusuariodoctor', data.idusuariodoctor);
+    if(!!data.fechacita){
+      params = params.append('fechacita', data.fechacita);
+    }  
+    return this.http.get<IHorariosDisponibles>(`${this.api}/api/diasatencion/listar-horarios`, { params: params });
   }
 }

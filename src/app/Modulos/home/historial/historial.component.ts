@@ -53,7 +53,7 @@ export class HistorialComponent implements OnInit {
     let MostrarDato 
     !this.dataDesencryptada.isadmin ? MostrarDato = true : false 
 
-    this.onBuscar();
+    //this.onBuscar();
    
     this.cols = [ 
       { field: 'dni', header: 'DNI', visibility: !MostrarDato }, 

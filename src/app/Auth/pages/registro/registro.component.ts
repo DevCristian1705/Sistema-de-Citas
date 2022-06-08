@@ -61,6 +61,7 @@ export class RegistroComponent implements OnInit {
       apellidoPaterno: data.apellidoPaterno,
       apellidoMaterno: data.apellidoMaterno, 
       fechaNacimiento: data.fechaNacimiento, 
+      nombrecompleto : data.nombres + ' ' + data.apellidoPaterno + ' ' + data.apellidoMaterno, 
       sexo: data.sexo.codigo, 
       direccion: data.direccion, 
       correo: data.correo, 

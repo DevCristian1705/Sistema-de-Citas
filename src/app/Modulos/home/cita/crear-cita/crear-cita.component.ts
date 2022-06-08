@@ -127,8 +127,7 @@ export class CrearCitaComponent implements OnInit {
       this.listaCitas = [];
     }else{ 
       if(this.idDoctorSelccionado != event.value.idusuario){ 
-        this.onCargarDiasAtencion(event.value.idusuario);   
-        this.onCargarHorariosDisponibles(event.value.idusuario);  
+        this.onCargarDiasAtencion(event.value.idusuario); 
         this.mostrardiasAtencion = true;  
         this.mostrarCalendario = false;
         this.listaCitas = [];
@@ -150,8 +149,12 @@ export class CrearCitaComponent implements OnInit {
     });
   }
 
-  onCargarHorariosDisponibles(idusuariodoctor){
-    this.apiService.getHorariosDisponibles(idusuariodoctor).subscribe((resp)=> {   
+  onCargarHorariosDisponibles(data){
+    const filter = {
+      idusuariodoctor: data.idusuariodoctor,
+      fechacita : data.diaatencion
+    }
+    this.apiService.getHorariosDisponibles(filter).subscribe((resp)=> {   
       if(resp){ 
         this.listaHorarios = resp.data;
       }
@@ -170,9 +173,11 @@ export class CrearCitaComponent implements OnInit {
   }
   
   onSeleccionaDiaDisponible(event : any){  
+    console.log('al seleccionar el dia', event.data);
     if(event){     
       this.diaValidRange = { start:  event.data.diaatencion, end: event.data.diaatencion} 
       this.mostrarCalendario = true; 
+      this.onCargarHorariosDisponibles(event.data);  
       this.configCalendario();
     }
   }
@@ -210,13 +215,12 @@ export class CrearCitaComponent implements OnInit {
       idusuario : this.dataDesencryptada.isadmin ? 0 : +this.dataDesencryptada.idusuario,
       idusuariodoctor : this.idDoctorSelccionado, //iddoctor,
       fecha : null
-    }
+    } 
     this.listaCitas = [];
     this.apiService.getHistorialCitas(filter).subscribe((resp)=> {  
       if(resp.data){
         let  ObjCitas : any = resp.data
-          ObjCitas.forEach(element => {
-          //this.listaDiasAtencion = [...new Map(resp.data.map(item => [item['diaatencion'], item])).values()]; 
+          ObjCitas.forEach(element => { 
           if(element.estado === 'RESERVADO'){
             this.ColorDelEvent = 'yellow'
           }else if(element.estado === 'PAGADO'){
@@ -246,6 +250,7 @@ export class CrearCitaComponent implements OnInit {
         });  
       }
     }); 
+
   }
  
   handleDateClick(arg) {  
@@ -318,8 +323,12 @@ export class CrearCitaComponent implements OnInit {
   }
 
   onPagoCitaConfirmada(){
-    this.idEstadoCitaSeleccionado = 2
-    this.onGrabarCita();
+    this.swal.mensajePregunta('¿Seguro de realizar el pago de la cita?').then((response) => { 
+      if(response.isConfirmed) { 
+        this.idEstadoCitaSeleccionado = 2
+        this.onGrabarCita();
+      }  
+    }) 
   }
     
   onGrabarCita(){    
@@ -334,22 +343,19 @@ export class CrearCitaComponent implements OnInit {
     this.apiService.crear(data).subscribe((resp => {
       if(resp.data){
         this.swal.mensajeExito('Se grabaro lo cita correctamente!');
+        this.modalPagarcita =false;  
+        this.modaldatosCitaEditar = false;
         this.modalHorarioCita =false;
-        this.modalPagarcita =false; 
-        this.router.navigate(['/modulos/home/historial'])
-        this.LimpiasCampos();
+        this.onCargarListacitas();
+        this.configCalendario();
       }else{
         this.swal.mensajeError(resp.mensaje);
       }
     }))
    
   }
-  LimpiasCampos(){
-    this.idcita = null,
-    this.idDiaAtencionSeleccionado = null,
-    this.idEstadoCitaSeleccionado = null, 
-    this.idTipoCitaSeleccionado = null
-  }
+
+ 
 
   validateFormat(event) {
     let key;

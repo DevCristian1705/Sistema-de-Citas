@@ -24,9 +24,8 @@ export class AppTopBarComponent {
   } 
 
   onPintarDatos(){  
-    this.dataDesencryptada = JSON.parse(sessionStorage.getItem('datosUsuario')) 
-    console.log(this.dataDesencryptada);
-    this.usuariologeado = this.dataDesencryptada.nombre + ' ' +this.dataDesencryptada.apePaterno
+    this.dataDesencryptada = JSON.parse(sessionStorage.getItem('datosUsuario'))  
+    this.usuariologeado = this.dataDesencryptada.nombreCompleto 
     if(this.dataDesencryptada.isadmin === true){
       this.rolUsuario = 'Administrador';
     }

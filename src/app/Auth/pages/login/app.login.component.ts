@@ -59,6 +59,7 @@ export class AppLoginComponent {
           nombre: DatosUsuario.nombres,
           apePaterno: DatosUsuario.apellidoPaterno,
           apeMaterno: DatosUsuario.apellidoMaterno,
+          nombreCompleto : DatosUsuario.nombrecompleto,
           dni : DatosUsuario.usuario,
           correo : DatosUsuario.correo,
           isadmin : DatosUsuario.isadmin,

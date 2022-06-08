@@ -113,8 +113,10 @@ export class CrearDiasAtencionComponent implements OnInit {
           idusuariodoctor : this.idMedicoSeleccionado,
           diaatencion : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA),
           nombredia : nombreDia,
-          horainicio :   this.dateFormat.transform(fechaInicioSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
-          horafin :  this.dateFormat.transform(fechafinSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          // horainicio :   this.dateFormat.transform(fechaInicioSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          // horafin :  this.dateFormat.transform(fechafinSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          horainicio : new Date(fechaInicioSumada), 
+          horafin :  new Date( fechafinSumada )
         }) 
       }else{ 
         this.HoraQueSelecciono =  dataform.FechaAtencion
@@ -123,8 +125,10 @@ export class CrearDiasAtencionComponent implements OnInit {
           idusuariodoctor : this.idMedicoSeleccionado,
           diaatencion : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA),
           nombredia : nombreDia,
-          horainicio : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
-          horafin : this.dateFormat.transform(fechafinSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          // horainicio : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          // horafin : this.dateFormat.transform(fechafinSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          horainicio :  new Date(dataform.FechaAtencion),
+          horafin : new Date(fechafinSumada)
         }) 
       } 
     } 

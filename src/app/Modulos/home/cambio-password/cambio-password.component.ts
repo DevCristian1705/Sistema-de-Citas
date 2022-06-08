@@ -90,6 +90,7 @@ export class CambioPasswordComponent implements OnInit {
       apellidoPaterno: dataform.apellidoPaterno,
       apellidoMaterno: dataform.apellidoMaterno, 
       fechaNacimiento: dataform.fechaNacimiento, 
+      nombrecompleto : dataform.nombres + ' ' + dataform.apellidoPaterno + ' ' + dataform.apellidoMaterno, 
       sexo: dataform.sexo.codigo, 
       direccion: dataform.direccion, 
       correo: dataform.correo, 

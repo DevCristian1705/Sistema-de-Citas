@@ -14,7 +14,7 @@
                                 class="extender"
                                 [options]="arrayDoctores"  
                                 placeholder="seleccionar"
-                                optionLabel="nombres"
+                                optionLabel="nombrecompleto"
                                 formControlName="Medico" 
                                 (onChange)="onChangeMedico($event)"
                                 [showClear]="true"
@@ -36,7 +36,7 @@
 
                         <div class="p-field p-col-12 p-md-2  p-sm-6">
                             <strong>N° de citas </strong> 
-                            <p-inputNumber   formControlName="CantidadCitas" [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal" inputId="horizontal"
+                            <p-inputNumber   formControlName="CantidadCitas" :min="1" [showButtons]="true" buttonLayout="horizontal" spinnerMode="horizontal" inputId="horizontal"
                             decrementButtonClass="p-button-secondary" incrementButtonClass="p-button-secondary" incrementButtonIcon="pi pi-plus" decrementButtonIcon="pi pi-minus">
                             </p-inputNumber>  
                         </div> 
