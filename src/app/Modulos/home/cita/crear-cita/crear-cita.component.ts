@@ -52,6 +52,8 @@ export class CrearCitaComponent implements OnInit {
   idDiaAtencionSeleccionado : number = 0; 
   idEstadoCitaSeleccionado : number = 0;
   idDoctorSelccionado : number = 0;
+  idUsuarioDoctorSeleccioando :number = 0;
+  diaatencionSeleccionado : any;
   idcita: number = 0; 
   ColorDelEvent : string = 'yellow'
   dataEventEdit :any = [];
@@ -149,10 +151,10 @@ export class CrearCitaComponent implements OnInit {
     });
   }
 
-  onCargarHorariosDisponibles(data){
+  onCargarHorariosDisponibles(){
     const filter = {
-      idusuariodoctor: data.idusuariodoctor,
-      fechacita : data.diaatencion
+      idusuariodoctor:  this.idUsuarioDoctorSeleccioando, //data.idusuariodoctor,
+      fechacita : this.diaatencionSeleccionado //this.formatDate.transform(data.diaatencion, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA)
     }
     this.apiService.getHorariosDisponibles(filter).subscribe((resp)=> {   
       if(resp){ 
@@ -172,12 +174,13 @@ export class CrearCitaComponent implements OnInit {
 
   }
   
-  onSeleccionaDiaDisponible(event : any){  
-    console.log('al seleccionar el dia', event.data);
+  onSeleccionaDiaDisponible(event : any){   
     if(event){     
+      this.idUsuarioDoctorSeleccioando = event.data.idusuariodoctor;
+      this.diaatencionSeleccionado  = this.formatDate.transform(event.data.diaatencion, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA)
       this.diaValidRange = { start:  event.data.diaatencion, end: event.data.diaatencion} 
       this.mostrarCalendario = true; 
-      this.onCargarHorariosDisponibles(event.data);  
+      this.onCargarHorariosDisponibles();  
       this.configCalendario();
     }
   }
@@ -228,7 +231,7 @@ export class CrearCitaComponent implements OnInit {
           }else{
             this.ColorDelEvent = 'red'
           }
-         let idTipoCita = this.arrayTipoConsulta.find(x => x.nombre === element.tipocita)
+         //let idTipoCita = this.arrayTipoConsulta.find(x => x.nombre === element.tipocita)
           this.listaCitas.push(
             {
               title: element.tipocita, 
@@ -244,7 +247,7 @@ export class CrearCitaComponent implements OnInit {
               idusuario: element.idusuario, 
               estado : element.estado,
               tipo : element.tipocita,
-              idtipo : idTipoCita.codigo,
+              idtipo : element.idtipocita, //idTipoCita.codigo,
               iddiasatencion: element.iddiasatencion
             })
         });  
@@ -254,9 +257,13 @@ export class CrearCitaComponent implements OnInit {
   }
  
   handleDateClick(arg) {  
-   this.fechaCitasolicitada = arg.dateStr;
-   this.precioConsultaSeleccionada = null
-   this.modalHorarioCita= true;
+    if(!this.listaHorarios.length){
+      this.swal.mensajeAdvertencia('No quedan horarios disponibles para este dia.');
+    }else{
+      this.fechaCitasolicitada = arg.dateStr;
+      this.precioConsultaSeleccionada = null
+      this.modalHorarioCita= true;
+    }
   }
   
   onSeleccionarTipoConsulta(event: any){  
@@ -348,6 +355,7 @@ export class CrearCitaComponent implements OnInit {
         this.modalHorarioCita =false;
         this.onCargarListacitas();
         this.configCalendario();
+        this.onCargarHorariosDisponibles();
       }else{
         this.swal.mensajeError(resp.mensaje);
       }

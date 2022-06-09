@@ -37,4 +37,10 @@ export class CitasService {
     }  
     return this.http.get<IHorariosDisponibles>(`${this.api}/api/diasatencion/listar-horarios`, { params: params });
   }
+
+
+  deleteCitasVencidas(data : any):Observable<any>{
+    return this.http.post<ICrearcita>(`${this.api}/api/cita/delete-citas-vencidas`, data)
+  }
+
 }

@@ -11,6 +11,7 @@ import { CrearDoctorComponent } from './doctor/crear-doctor/crear-doctor.compone
 import { CrearDiasAtencionComponent } from './diasatencion/crear-dias-atencion/crear-dias-atencion.component';
 import { CambioPasswordComponent } from './cambio-password/cambio-password.component';
 import { HistorialComponent } from './historial/historial.component';
+import { ValidarCitasComponent } from './validar-citas/validar-citas.component';
 
 @NgModule({
   declarations: [ 
@@ -19,7 +20,8 @@ import { HistorialComponent } from './historial/historial.component';
     CrearDoctorComponent, 
     CrearDiasAtencionComponent,
     CambioPasswordComponent,
-    HistorialComponent
+    HistorialComponent,
+    ValidarCitasComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,78 @@
+<div class="Margintabla">
+    <div class="contenidoTable card"> 
+        <div>
+            <h2 style="text-align:center"> CITAS VENCIDAS</h2>    
+            <hr>   
+            <form [formGroup]="Form">  
+                <div class="p-col-12"> 
+                    <div class="p-fluid p-formgrid p-grid"> 
+                        <div class="p-field p-col-12 p-md-6">
+                            <strong>Médico</strong> 
+                            <p-dropdown 
+                                class="extender"
+                                [options]="arrayDoctores"  
+                                placeholder="seleccionar"
+                                optionLabel="nombrecompleto"
+                                (onChange)="onChangeMedico($event)"
+                                formControlName="Medico"
+                                [showClear]="true"
+                            ></p-dropdown>
+                        </div> 
+    
+                        <div class="p-field p-col-12 p-md-2 p-sm-6 AlinearBotonForm">
+                            <button type="button" 
+                            pTooltip="Buscar" 
+                            label="Buscar" class="p-button-sm"
+                            tooltipPosition="left" (click)="onBuscar()"
+                            pButton icon="fas fa-search"></button>      
+                        </div>  
+                        <div class="p-field p-col-12 p-md-2 p-sm-6 AlinearBotonForm">
+                            <button type="button" 
+                            style=" background-color: #D72250;"
+                            pTooltip="Eliminar" 
+                            label="Eliminar" class="p-button-sm"
+                            tooltipPosition="left" (click)="onEliminarcitas()"
+                            pButton icon="fas fa-trash"></button>      
+                        </div>  
+                    </div>  
+                </div>   
+            </form>
+
+            <p-table  
+            class="TablaGeneral"
+            [value]="listacitasVencidas" 
+            [columns]="cols"
+            selectionMode="single">
+                <ng-template pTemplate="header" let-columns>
+                  <tr>
+                    <th *ngFor="let col of columns">
+                      {{ col.header }}  
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-citas let-columns="columns"  let-rowIndex="rowIndex">
+                  <tr [pSelectableRow]="citas" [pSelectableRowIndex]="rowIndex">
+                    <td  *ngFor="let col of columns" >
+                      <strong class="p-column-title">{{ col.header | uppercase}}</strong>   
+                        <div [ngSwitch]="col.field">    
+                          <div *ngSwitchCase="'fechacita'">
+                              {{ citas[col.field] | date: col.formatoFecha }}
+                          </div> 
+                          <div style="font-weight:bold;" *ngSwitchCase="'horarioCita'">
+                            de {{ citas.horainicio  | date: 'shortTime' }}  a  {{ citas.horafin | date: 'shortTime' }}
+                        </div>  
+                          <div *ngSwitchDefault>
+                              {{ citas[col.field]  }}
+                          </div>
+                      </div>   
+                    </td>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                  <tr>
+                    <td colspan="6">No existen citas registradas</td>
+                  </tr>
+                </ng-template> 
+              </p-table>  
+        </div> 
+    </div>   
+</div>   
