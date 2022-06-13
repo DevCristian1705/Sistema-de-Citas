@@ -108,7 +108,7 @@ export class HistorialComponent implements OnInit {
     } 
     this.swal.mensajePreloader(true);
     this.apiCitas.getHistorialCitas(Busqueda).subscribe((resp)=> {  
-      if(resp.data.length){ 
+      if(resp.data){ 
         this.listacitas = resp.data;
         this.swal.mensajePreloader(false);
       }else{
