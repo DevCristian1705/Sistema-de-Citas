@@ -193,7 +193,12 @@
                     <input type="text" pInputText minlength="16" maxlength="16" (keyup)="validateFormat($event)"  formControlName="nrotarjeta" placeholder="ingresar nro Tarjeta" class="p-inputtext-sm">  
                   
                     <strong>Fecha Vencimiento *:</strong>     
-                    <p-calendar class="extender" [(ngModel)]="dateCombo" view="month" dateFormat="mm/yy" appendTo="body" formControlName="fechavencimiento" [readonlyInput]="true" inputId="monthpicker"></p-calendar>  
+                    <p-calendar class="extender"
+                     [(ngModel)]="dateCombo" view="month"
+                      dateFormat="mm/yy" appendTo="body" 
+                      formControlName="fechavencimiento" 
+                      [minDate]="fechaActual"
+                      [readonlyInput]="true" inputId="monthpicker"></p-calendar>  
                     
                     <strong>Cvv *:</strong> 
                     <input type="text"  (keyup)="validateFormat($event)"  formControlName="cvv" pInputText minlength="3" maxlength="3" placeholder="cvv" class="p-inputtext-sm">  

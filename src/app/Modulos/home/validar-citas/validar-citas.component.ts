@@ -15,8 +15,7 @@ import { DoctorService } from '../doctor/service/doctor.service';
 })
 export class ValidarCitasComponent implements OnInit {
   Form: FormGroup; 
-  fechaActual = new Date(); 
-  dataDesencryptada : any = JSON.parse(sessionStorage.getItem('datosUsuario'))
+  fechaActual = new Date();  
   arrayDoctores: IUsuario[];  
   cols: InterfaceColumnasGrilla[] = []; 
   listacitas: IHistorialCita[]; 

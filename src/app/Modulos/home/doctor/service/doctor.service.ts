@@ -30,4 +30,8 @@ export class DoctorService {
     return this.http.get<IUsuario>(`${this.api}/api/usuario/listar-usuario/${idusuario}`) 
   }
 
+  getUsuarios():Observable<any>{
+    return this.http.get<IUsuario>(`${this.api}/api/usuario/listarusuarios`) 
+  }
+
 }

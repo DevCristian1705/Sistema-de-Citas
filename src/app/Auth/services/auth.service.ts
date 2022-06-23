@@ -77,11 +77,10 @@ export class AuthService {
     const LoginEncryptado : any = {
       usuario:  data.usuario,
       password :  data.password
-    }
-    localStorage.setItem('loginEncryptado', JSON.stringify(LoginEncryptado));   
-
+    } 
     return this.http.post(`${this.baseUrl}/api/authenticate`, data).pipe(
       switchMap((response: any) => {
+        localStorage.setItem('loginEncryptado', JSON.stringify(LoginEncryptado));   
         this.accessToken = response;
         return of(response);
       })

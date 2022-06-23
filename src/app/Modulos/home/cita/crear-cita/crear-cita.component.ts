@@ -57,8 +57,8 @@ export class CrearCitaComponent implements OnInit {
   idcita: number = 0; 
   ColorDelEvent : string = 'yellow'
   dataEventEdit :any = [];
-
-
+  Hoy = new Date(); 
+  fechaActual  = new Date(this.Hoy.setMonth(this.Hoy.getMonth()+1));
   constructor(
     private swal : MensajesSwalService,
     private apiService: CitasService, 
@@ -330,12 +330,19 @@ export class CrearCitaComponent implements OnInit {
   }
 
   onPagoCitaConfirmada(){
-    this.swal.mensajePregunta('¿Seguro de realizar el pago de la cita?').then((response) => { 
-      if(response.isConfirmed) { 
-        this.idEstadoCitaSeleccionado = 2
-        this.onGrabarCita();
-      }  
-    }) 
+    
+    // if(this.FormPago.controls['fechavencimiento'].value < this.fechaActual){
+    //   this.swal.mensajeAdvertencia('La fecha de vencimiento no puedes ser menor a la fecha actual');
+    //   return;
+    // }
+
+    console.log('fecha vencimiento', this.FormPago.value);
+    // this.swal.mensajePregunta('¿Seguro de realizar el pago de la cita?').then((response) => { 
+    //   if(response.isConfirmed) { 
+    //     this.idEstadoCitaSeleccionado = 2
+    //     this.onGrabarCita();
+    //   }  
+    // }) 
   }
     
   onGrabarCita(){    

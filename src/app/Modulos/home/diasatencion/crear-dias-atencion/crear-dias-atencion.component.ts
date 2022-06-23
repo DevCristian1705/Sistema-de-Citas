@@ -1,10 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { PrimeNGConfig } from 'primeng/api';
-import { min, tap } from 'rxjs/operators';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PrimeNGConfig } from 'primeng/api'; 
 import { IUsuario } from 'src/app/Auth/interface/auth.interface';
-import { ConstantesGenerales, InterfaceColumnasGrilla } from 'src/app/Shared/interfaces/shared.interfaces';
+import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';  
 import { DoctorService } from '../../doctor/service/doctor.service';
 import { DiasAtencionService } from '../service/diasatecion.service';
@@ -20,12 +19,10 @@ export class CrearDiasAtencionComponent implements OnInit {
   dataHorarios: any; 
   horariosGenerados : any[] = []; 
   es = ConstantesGenerales.ES_CALENDARIO;
-  fechaActual = new Date(); 
-  dataDesencryptada : any = JSON.parse(sessionStorage.getItem('datosUsuario'))
+  fechaActual = new Date();  
   arrayDoctores : IUsuario[];     
   mostrarTablaGenerar : boolean = false;
-  HoraQueSelecciono :any; 
-
+  HoraQueSelecciono :any;  
   idMedicoSeleccionado : number = 0;
 
 
@@ -34,8 +31,7 @@ export class CrearDiasAtencionComponent implements OnInit {
     private config : PrimeNGConfig,
     private swal : MensajesSwalService,
     private apiService : DiasAtencionService,
-    private doctorService: DoctorService,
-    private fb : FormBuilder,
+    private doctorService: DoctorService, 
   ) { 
     this.builform();
   } 

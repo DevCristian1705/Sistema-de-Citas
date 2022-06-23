@@ -1,0 +1,92 @@
+
+<div class="Margintabla">
+    <div class="contenidoTable card"> 
+     
+        <div class="tituloVista">  
+            <h3> <i class="fas fa-file"></i> REPORTE  CITAS </h3>  
+        </div>
+
+        <hr> 
+
+        <div class="grillaItems">  
+            <p-card class="SombraCard" href="#" (click)="onDescargarPDF()" >
+                <i class="fas fa-file-pdf sizeIcon"></i>
+                <br>
+                <p class="textIcon"> PDF </p> 
+            </p-card> 
+            <p-card class="SombraCard" (click)="onDescargarExcel()" >
+                <i class="fas fa-file-excel sizeIcon"></i>
+                <br>
+                <p class="textIcon"> EXCEL </p> 
+            </p-card> 
+            <!-- <p-card class="SombraCard" (click)="onDescargarXml()"> 
+                <i class="fas fa-file-lines sizeIcon"></i>
+                <br>
+                <p class="textIcon"> XML </p> 
+            </p-card>  -->
+            <p-card class="SombraCard"  (click)="onDescargarWord()" >
+                <i class="fas fa-file-word sizeIcon"></i>
+                <br>
+                <p class="textIcon"> WORD </p> 
+            </p-card> 
+            <!-- <p-card class="SombraCard" (click)="onDescargarHtml()">
+                <i class="fas fa-file-code sizeIcon"></i>
+                <br>
+                <p class="textIcon"> HTML </p> 
+            </p-card>    -->
+        </div>
+
+        <div #exportContent *ngIf="mostrartabla">
+            <p-table  
+            class="TablaGeneral"
+            [value]="listacitas" 
+            [columns]="cols"
+            selectionMode="single" 
+                >
+                <ng-template pTemplate="header" let-columns>
+                    <tr>
+                    <th *ngFor="let col of columns">
+                        {{ col.header }}  
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-citas let-columns="columns"  let-rowIndex="rowIndex">
+                    <tr [pSelectableRow]="citas" [pSelectableRowIndex]="rowIndex">
+                    <td  *ngFor="let col of columns" >
+                        <strong class="p-column-title">{{ col.header | uppercase}}</strong>   
+                        <div [ngSwitch]="col.field">    
+                            <div *ngSwitchCase="'fechacita'">
+                                {{ citas[col.field] | date: col.formatoFecha }}
+                            </div> 
+                            <div style="font-weight:bold;" *ngSwitchCase="'horarioCita'">
+                            de {{ citas.horainicio  | date: 'shortTime' }}  a  {{ citas.horafin | date: 'shortTime' }}
+                            </div>  
+                            <div class="ColorReservado" *ngSwitchCase="citas.idestadocita === 1">
+                                {{ citas[col.field]  }}
+                            </div> 
+                            <div class="ColorPagado" *ngSwitchCase="citas.idestadocita === 2">
+                                {{ citas[col.field]  }}
+                            </div> 
+                            <div *ngSwitchDefault>
+                                {{ citas[col.field]  }}
+                            </div>
+                        </div>   
+                    </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="emptymessage">
+                    <tr>
+                    <td colspan="6">No existen citas registradas</td>
+                    </tr>
+                </ng-template> 
+            </p-table>   
+        </div>
+
+      
+
+    </div> 
+      
+</div>   
+
+  
+
+ 

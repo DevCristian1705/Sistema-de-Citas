@@ -10,7 +10,7 @@ import { MenuService } from './Shared/services/app.menu.service';
   
 import { registerLocaleData } from '@angular/common';  
 import localePy from '@angular/common/locales/es-Pe';   
-import { InterceptorService } from './Auth/services/interceptor.service';
+import { InterceptorService } from './Auth/services/interceptor.service'; 
 registerLocaleData(localePy, 'es');
 
 
@@ -23,7 +23,7 @@ registerLocaleData(localePy, 'es');
         BrowserAnimationsModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
     ], 
     providers: [
         {provide: LocationStrategy, useClass: HashLocationStrategy},

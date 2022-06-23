@@ -19,6 +19,7 @@ export interface IUsuario {
     correo: string, 
     telefono: number, 
     password: string, 
+    pass: string, 
     isadmin : boolean,
     isdoctor : boolean,
     colegiatura? : string, 

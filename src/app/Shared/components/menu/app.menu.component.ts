@@ -28,10 +28,12 @@ export class AppMenuComponent implements OnInit {
             items: [
                 {label: 'Registro de citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cita'], visible: !this.dataDesencryptada.isdoctor },  
                 {label: 'Cambio contraseña', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/cambiopassword'] }, 
+                {label: 'Actualizar Usuario', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/usuarios'], visible: this.dataDesencryptada.isadmin }, 
                 {label: 'Registro de Doctores', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/doctor'], visible: this.dataDesencryptada.isadmin }, 
                 {label: 'Registro dias Atencion', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/diasAtencion'],  visible: this.dataDesencryptada.isdoctor || this.dataDesencryptada.isadmin},  
                 {label: 'Historial', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/historial']},   
                 {label: 'Validar Citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/validar-citas'], visible: this.dataDesencryptada.isadmin }, 
+                {label: 'Reporte Citas', icon: 'pi pi-fw pi-id-card', routerLink: ['/modulos/home/reporte-citas'], visible: this.dataDesencryptada.isadmin }, 
             ]
           },  
       ];

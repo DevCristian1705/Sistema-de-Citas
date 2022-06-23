@@ -1,10 +1,7 @@
-import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { IUsuario } from 'src/app/Auth/interface/auth.interface';
-import { AuthService } from 'src/app/Auth/services/auth.service';
-import { LoginService } from 'src/app/Auth/services/login.service';
-import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
+import { IUsuario } from 'src/app/Auth/interface/auth.interface'; 
+import { LoginService } from 'src/app/Auth/services/login.service'; 
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';
 import { DoctorService } from '../doctor/service/doctor.service'; 
 
@@ -16,35 +13,24 @@ import { DoctorService } from '../doctor/service/doctor.service';
 export class CambioPasswordComponent implements OnInit {
  
   Form : FormGroup;
-  arraySexo: any[] = ConstantesGenerales.arraySexo
-  arraytipoAdmin: any[] = ConstantesGenerales.arraytipoAdmin
   cambiarIconEye: string = "fa fa-eye"; 
+  cambiarIconEye1: string = "fa fa-eye"; 
   dataDesencryptada : any = JSON.parse(sessionStorage.getItem('datosUsuario'))
   DataUsuarioEdit : IUsuario;
 
   constructor(
     private swal : MensajesSwalService, 
     private apiService: DoctorService,
-    private usuarioService : LoginService,
-    private auth : AuthService,
-    private formaDate: DatePipe
+    private usuarioService : LoginService, 
   ) {
     this.builform();  
    }
 
    private builform(): void {
     this.Form = new FormGroup({  
-      usuario: new FormControl(null, Validators.required), 
-      nombres: new FormControl(null, Validators.required),  
-      apellidoPaterno: new FormControl(null, Validators.required), 
-      apellidoMaterno: new FormControl(null, Validators.required), 
-      fechaNacimiento: new FormControl(null, Validators.required),  
-      sexo : new FormControl(null, Validators.required),  
-      direccion: new FormControl(null, Validators.required),  
-      correo: new FormControl(null, Validators.email),  
-      telefono: new FormControl(null, Validators.required),  
+      usuario: new FormControl(null),
       password : new FormControl(null, Validators.required),
-      isadmin : new FormControl(null, Validators.required)
+      passwordActual : new FormControl(null, Validators.required), 
     });
   }
  
@@ -52,27 +38,14 @@ export class CambioPasswordComponent implements OnInit {
   ngOnInit(): void {   
     this.onDatosPorIdUsuario();
   }
-   
+
   onDatosPorIdUsuario(){ 
-    this.apiService.getUsuarioId( +this.dataDesencryptada.idusuario).subscribe((resp) => { 
-      if(resp){  
-       
+    this.apiService.getUsuarioId(+this.dataDesencryptada.idusuario).subscribe((resp) => { 
+      if(resp){    
         this.DataUsuarioEdit = resp
-        this.Form.patchValue({ 
-          usuario: this.DataUsuarioEdit.usuario,
-          nombres: this.DataUsuarioEdit.nombres,
-          apellidoPaterno: this.DataUsuarioEdit.apellidoPaterno,
-          apellidoMaterno: this.DataUsuarioEdit.apellidoMaterno,
-          fechaNacimiento: new Date(this.DataUsuarioEdit.fechaNacimiento), 
-          sexo: this.arraySexo.find(
-            (x) => x.codigo === this.DataUsuarioEdit.sexo
-          ), 
-          direccion: this.DataUsuarioEdit.direccion,
-          correo: this.DataUsuarioEdit.correo,
-          telefono: this.DataUsuarioEdit.telefono, 
-          isadmin: this.DataUsuarioEdit.isadmin,
-          isdoctor: this.DataUsuarioEdit.isdoctor
-        })
+        this.Form.patchValue({  
+          usuario: this.DataUsuarioEdit.usuario, 
+         })
       }else{
         this.swal.mensajeAdvertencia('No se encontraron datos...');
       }
@@ -83,26 +56,35 @@ export class CambioPasswordComponent implements OnInit {
  
   onGuardar(){   
     const dataform = this.Form.value;
+    if(dataform.passwordActual !=  this.DataUsuarioEdit.pass){
+      this.swal.mensajeAdvertencia('La contraseña actual no es correcta');
+      return;
+    }
+
     const data : IUsuario = {
-      idusuario : +this.dataDesencryptada.idusuario,
-      usuario: dataform.usuario,
-      nombres: dataform.nombres,
-      apellidoPaterno: dataform.apellidoPaterno,
-      apellidoMaterno: dataform.apellidoMaterno, 
-      fechaNacimiento: dataform.fechaNacimiento, 
-      nombrecompleto : dataform.nombres + ' ' + dataform.apellidoPaterno + ' ' + dataform.apellidoMaterno, 
-      sexo: dataform.sexo.codigo, 
-      direccion: dataform.direccion, 
-      correo: dataform.correo, 
-      telefono: dataform.telefono, 
+      idusuario : this.DataUsuarioEdit.idusuario,
+      usuario: this.DataUsuarioEdit.usuario,
+      nombres: this.DataUsuarioEdit.nombres, 
+      apellidoPaterno: this.DataUsuarioEdit.apellidoPaterno,
+      apellidoMaterno: this.DataUsuarioEdit.apellidoMaterno, 
+      fechaNacimiento: this.DataUsuarioEdit.fechaNacimiento, 
+      nombrecompleto: this.DataUsuarioEdit.nombrecompleto,
+      sexo: this.DataUsuarioEdit.sexo, 
+      direccion: this.DataUsuarioEdit.direccion, 
+      correo: this.DataUsuarioEdit.correo, 
+      telefono: this.DataUsuarioEdit.telefono,
       password: dataform.password, 
-      isadmin : dataform.isadmin,
-      isdoctor : dataform.isdoctor, 
+      pass: dataform.password, 
+      isadmin : this.DataUsuarioEdit.isadmin,
+      isdoctor : this.DataUsuarioEdit.isdoctor,
+      colegiatura : this.DataUsuarioEdit.colegiatura,  
     }  
  
     this.usuarioService.crearUsuario(data).subscribe((resp)=> {
       if(resp){
-        this.swal.mensajeExito('Cambio la contraseña correctamente');   
+        this.swal.mensajeExito('Cambio la contraseña correctamente');  
+        this.Form.reset(); 
+        this.onDatosPorIdUsuario();
       }
     }, error => {
       this.swal.mensajeError(error);  
@@ -114,6 +96,12 @@ export class CambioPasswordComponent implements OnInit {
   viewPassword(input) {
     input.type = input.type === 'password' ? 'text' : 'password'; 
     this.cambiarIconEye = input.type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'; 
+  }
+
+
+  viewPassword1(input) {
+    input.type = input.type === 'password' ? 'text' : 'password'; 
+    this.cambiarIconEye1 = input.type === 'password' ? 'fa fa-eye' : 'fa fa-eye-slash'; 
   }
 
   validateFormat(event) {

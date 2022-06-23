@@ -65,6 +65,7 @@ export class CrearDoctorComponent implements OnInit {
       telefono: data.telefono, 
       usuario: data.usuario,
       password: data.password,
+      pass: data.password,
       isadmin : false,
       isdoctor : true, 
     }

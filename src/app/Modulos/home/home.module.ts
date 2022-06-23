@@ -12,6 +12,8 @@ import { CrearDiasAtencionComponent } from './diasatencion/crear-dias-atencion/c
 import { CambioPasswordComponent } from './cambio-password/cambio-password.component';
 import { HistorialComponent } from './historial/historial.component';
 import { ValidarCitasComponent } from './validar-citas/validar-citas.component';
+import { ReporteCitasComponent } from './reporte-citas/reporte-citas.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 
 @NgModule({
   declarations: [ 
@@ -21,7 +23,10 @@ import { ValidarCitasComponent } from './validar-citas/validar-citas.component';
     CrearDiasAtencionComponent,
     CambioPasswordComponent,
     HistorialComponent,
-    ValidarCitasComponent
+    ValidarCitasComponent,
+    ReporteCitasComponent,
+    UsuariosComponent
+
   ],
   imports: [
     CommonModule,

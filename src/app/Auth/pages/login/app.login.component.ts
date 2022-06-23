@@ -56,15 +56,12 @@ export class AppLoginComponent {
       if(resp){
         let DatosUsuario :any = resp.user;
         const SaveDatos : any = {
-          nombre: DatosUsuario.nombres,
-          apePaterno: DatosUsuario.apellidoPaterno,
-          apeMaterno: DatosUsuario.apellidoMaterno,
+          idusuario : DatosUsuario.idusuario,  
           nombreCompleto : DatosUsuario.nombrecompleto,
           dni : DatosUsuario.usuario,
           correo : DatosUsuario.correo,
           isadmin : DatosUsuario.isadmin,
-          idusuario : DatosUsuario.idusuario,
-          isdoctor : DatosUsuario.isdoctor
+          isdoctor : DatosUsuario.isdoctor, 
         }
         sessionStorage.setItem('datosUsuario', JSON.stringify(SaveDatos)); 
         localStorage.setItem('rememberMe', dataForm.rememberMe ? dataForm.rememberMe : null); 

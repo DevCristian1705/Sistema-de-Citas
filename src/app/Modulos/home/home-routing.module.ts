@@ -8,6 +8,8 @@ import { CrearDiasAtencionComponent } from './diasatencion/crear-dias-atencion/c
 import { CrearDoctorComponent } from './doctor/crear-doctor/crear-doctor.component';
 import { HistorialComponent } from './historial/historial.component';
 import { HomeComponent } from './home.component';     
+import { ReporteCitasComponent } from './reporte-citas/reporte-citas.component';
+import { UsuariosComponent } from './usuarios/usuarios.component';
 import { ValidarCitasComponent } from './validar-citas/validar-citas.component';
 
 const routes: Routes = [
@@ -51,6 +53,18 @@ const routes: Routes = [
       {
         path: 'validar-citas',
         component : ValidarCitasComponent,
+        canLoad : [AuthGuard],
+        canActivate : [AuthGuard]
+      },
+      {
+        path: 'reporte-citas',
+        component : ReporteCitasComponent,
+        canLoad : [AuthGuard],
+        canActivate : [AuthGuard]
+      },
+      {
+        path: 'usuarios',
+        component : UsuariosComponent,
         canLoad : [AuthGuard],
         canActivate : [AuthGuard]
       }
