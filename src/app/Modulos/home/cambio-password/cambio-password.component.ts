@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IUsuario } from 'src/app/Auth/interface/auth.interface'; 
 import { LoginService } from 'src/app/Auth/services/login.service'; 
 import { MensajesSwalService } from 'src/app/Utilitarios/swal-Service/swal.service';
@@ -22,6 +23,7 @@ export class CambioPasswordComponent implements OnInit {
     private swal : MensajesSwalService, 
     private apiService: DoctorService,
     private usuarioService : LoginService, 
+    public router : Router
   ) {
     this.builform();  
    }
@@ -60,6 +62,13 @@ export class CambioPasswordComponent implements OnInit {
       this.swal.mensajeAdvertencia('La contraseña actual no es correcta');
       return;
     }
+
+
+    if(dataform.passwordActual  === dataform.password){
+      this.swal.mensajeAdvertencia('La contraseña actual debe ser distinta a la anterior');
+      return;
+    }
+
 
     const data : IUsuario = {
       idusuario : this.DataUsuarioEdit.idusuario,
@@ -122,5 +131,8 @@ export class CambioPasswordComponent implements OnInit {
     }
     
  
+    onCancelar(){
+      this.router.navigate(['/modulos/home/cita'])  
+    }
     
 }

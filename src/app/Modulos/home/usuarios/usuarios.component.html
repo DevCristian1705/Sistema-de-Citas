@@ -1,116 +1,112 @@
 
      <div class="Margintabla">
         <div class="contenidoTable card">  
-            <h2 class="botones"> ACTUALIZACION DE USUARIO</h2>   
-
-            <div class="filtroCombo">
-                <div class="p-col-12"> 
-                    <div class="p-fluid p-formgrid p-grid Alinear"> 
-                        <div class="p-field p-col-12 p-md-5 ">  
-                            <strong>SELECCIONAR USUARIO: </strong>
-                        </div>
-                        <div class="p-field p-col-12 p-md-5">  
-                            <p-dropdown 
-                                [options]="arrayUsuarios"  
-                                placeholder="seleccionar"
-                                optionLabel="nombrecompleto"
-                                (onChange)="onSeleccionarUsuario($event)"
-                                [showClear]="true"
-                            ></p-dropdown>
-                        </div>
-                        <div class="p-field p-col-12 p-md-2">  
-                            <button  
-                                class="p-button-sm p-button-rounded"
-                                pButton
-                                type="button" 
-                                label="Buscar"
-                                (click)="onDatosPorIdUsuario()"
-                                icon="pi pi-search">  
-                            </button>  
-                        </div>
+            <h2 class="botones"> ACTUALIZACIÓN DE USUARIO</h2>   
+ 
+            <div class="p-col-12"> 
+                <div class="p-fluid p-formgrid p-grid Alinear"> 
+                    <div class="p-field p-col-12 p-md-4">  
+                        <strong>SELECCIONAR USUARIO: </strong>
+                    </div>
+                    <div class="p-field p-col-12 p-md-6 centrar">  
+                        <p-dropdown 
+                            [options]="arrayUsuarios"  
+                            appendTo="body"
+                            placeholder="seleccionar"
+                            optionLabel="nombrecompleto"
+                            (onChange)="onSeleccionarUsuario($event.value)"
+                            [showClear]="true"
+                        ></p-dropdown>
+                    </div>
+                    <div class="p-field p-col-12 p-md-2">  
+                        <button  
+                            class="p-button-sm p-button-rounded"
+                            pButton
+                            type="button" 
+                            label="Buscar"
+                            [disabled]="usuarioSelecionado"
+                            (click)="onDatosPorIdUsuario()"
+                            icon="pi pi-search">  
+                        </button>  
                     </div>
                 </div>
             </div>
-
+             
             <div *ngIf="DataUsuarioEdit">
-                <div class="centrar">
-                    <h3> <strong>ID USUARIO: {{ DataUsuarioEdit.idusuario }} </strong></h3>  
-                </div>
-                <form [formGroup]="Form" class="form" >   
-                    <div class="formulario">    
-                        <strong>Nro Documento *</strong>  
-                        <input type="text" pInputText readonly minlength="8" maxlength="8" (keypress)="validateFormat($event)" formControlName="usuario" class="p-inputtext-sm" placeholder="ingresa dni">   
-    
-                        <strong>Nombres*</strong>
-                        <input type="text" pInputText formControlName="nombres" class="p-inputtext-sm" placeholder="ingresar tus nombres">     
+            
+                <p-fieldset>
+                    <ng-template pTemplate="header">COMPLETA EL FORMULARIO</ng-template>
                     
-                        <strong>Apellidos*:</strong> 
-                        <div class="p-inputgroup">                  
-                            <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
-                            <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
-                        </div>
-                
-                        <strong>Fec. Nacimiento*:</strong>     
-                        <p-calendar   
-                            readonlyInput="true"
-                            [showIcon]="true"
-                            dateFormat="dd/mm/yy"
-                            formControlName="fechaNacimiento"
-                        ></p-calendar>  
-    
-                        <strong>Sexo*:</strong>
-                        <p-dropdown
-                            class="extender"
-                            [options]="arraySexo" 
-                            formControlName="sexo"
-                            placeholder="selecciona"
-                            optionLabel="nombre"
-                            [showClear]="true"
-                        ></p-dropdown>
-                      
-                        <strong>Direccion*:</strong>
-                        <input type="text" pInputText formControlName="direccion" class="p-inputtext-sm"  placeholder="ingresar una direccion">  
-                        
-                        <strong>Correo*</strong>
-                        <input type="email" pInputText formControlName="correo" class="p-inputtext-sm" placeholder="ingresar el corrreo">  
-                        
-                        <strong>Telefono*</strong>
-                        <input type="text" pInputText maxlength="9"  (keypress)="validateFormat($event)" formControlName="telefono" class="p-inputtext-sm" placeholder="ingresar el telefono">  
-                
-                        <!-- <strong> Nueva Contraseña *:</strong> 
-                        <span class="p-input-icon-right" style="width: 100%;">
-                            <i toggle="#password-field"
-                            [class]="cambiarIconEye"
-                            (click)="viewPassword(clave)"> </i>
-                            <input type="password" style="display: grid" minlength="2" maxlength="6"  #passwordField pInputText placeholder="nueva contraseña" formControlName="password"  #clave class="p-inputtext-sm">    
-                        </span>   -->
-                    </div> 
-                    
-                </form>  
-                 
-                <div class="botones">
-                  
+                    <form [formGroup]="Form" class="form" >   
+                        <div class="formulario">    
+                            <strong>Nro Documento *</strong>  
+                            <input type="text" pInputText readonly minlength="8" maxlength="8" (keypress)="validateFormat($event)" formControlName="usuario" class="p-inputtext-sm" placeholder="ingresa dni">   
         
-                    <button   
-                        class="p-button-sm p-button-rounded mx-2"
-                        pButton
-                        type="button"
-                        style=" background-color: white; color: black; margin-right: 1%;"
-                        icon="pi pi-times-circle"
-                        label="Cancelar" >  
-                    </button>  
+                            <strong>Nombres*</strong>
+                            <input type="text" pInputText formControlName="nombres" class="p-inputtext-sm" placeholder="ingresar tus nombres">     
+                        
+                            <strong>Apellidos*:</strong> 
+                            <div class="p-inputgroup">                  
+                                <input type="text" style="margin-right: 1%" pInputText placeholder="apellido paterno" formControlName="apellidoPaterno" class="p-inputtext-sm">  
+                                <input type="text" pInputText placeholder="apellido materno" formControlName="apellidoMaterno" class="p-inputtext-sm">  
+                            </div>
+                    
+                            <strong>Fec. Nacimiento*:</strong>     
+                            <p-calendar   
+                                readonlyInput="true"
+                                [showIcon]="true"
+                                dateFormat="dd/mm/yy"
+                                formControlName="fechaNacimiento"
+                            ></p-calendar>  
+        
+                            <strong>Sexo*:</strong>
+                            <p-dropdown
+                                class="extender"
+                                [options]="arraySexo" 
+                                formControlName="sexo"
+                                placeholder="selecciona"
+                                optionLabel="nombre"
+                                [showClear]="true"
+                            ></p-dropdown>
+                        
+                            <strong>Direccion*:</strong>
+                            <input type="text" pInputText formControlName="direccion" class="p-inputtext-sm"  placeholder="ingresar una direccion">  
+                            
+                            <strong>Correo*</strong>
+                            <input type="email" pInputText formControlName="correo" class="p-inputtext-sm" placeholder="ingresar el corrreo">  
+                            
+                            <strong>Telefono*</strong>
+                            <input type="text" pInputText maxlength="9"  (keypress)="validateFormat($event)" formControlName="telefono" class="p-inputtext-sm" placeholder="ingresar el telefono">  
     
-                    <button  
-                        class="p-button-sm p-button-rounded mx-2"
-                        pButton
-                        type="button"
-                        [disabled]="Form.invalid" 
-                        label="Actualizar"
-                        (click)="onGuardar()"
-                        icon="pi pi-check-circle">  
-                    </button>  
-    
-                </div>
+                        </div> 
+                        
+                    </form>  
+                    
+                    <div class="botones">
+                    
+            
+                        <button   
+                            class="p-button-sm p-button-rounded mx-2"
+                            pButton
+                            type="button"
+                            style=" background-color: white; color: black; margin-right: 1%;"
+                            icon="pi pi-times-circle"
+                            label="Cancelar"
+                            (click)="onCancelar()" >  
+                        </button>  
+        
+                        <button  
+                            class="p-button-sm p-button-rounded mx-2"
+                            pButton
+                            type="button"
+                            [disabled]="Form.invalid" 
+                            label="Actualizar"
+                            (click)="onGuardar()"
+                            icon="pi pi-check-circle">  
+                        </button>  
+        
+                    </div>
+                </p-fieldset>
             </div>
         </div>  
       

@@ -67,7 +67,7 @@ export class AppLoginComponent {
         localStorage.setItem('rememberMe', dataForm.rememberMe ? dataForm.rememberMe : null); 
         this.swal.mensajeExito('Bienvenido al Sistema!!.')
         setTimeout(() => {
-          this.router.navigate(['/modulos/home'])  
+          this.router.navigate(['/modulos/home/cita'])  
         }, 1500);
       }
     }, error => {

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api'; 
 import { IUsuario } from 'src/app/Auth/interface/auth.interface';
 import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
@@ -32,6 +33,7 @@ export class CrearDiasAtencionComponent implements OnInit {
     private swal : MensajesSwalService,
     private apiService : DiasAtencionService,
     private doctorService: DoctorService, 
+    private router: Router, 
   ) { 
     this.builform();
   } 
@@ -58,13 +60,8 @@ export class CrearDiasAtencionComponent implements OnInit {
     });
   } 
   
-  onChangeMedico(event){
-    console.log('event',event.value);
-    if(event.value){ 
-      // if( this.idMedicoSeleccionado != event.value.idusuario){
-      //   this.horariosGenerados = []; 
-      //   this.mostrarTablaGenerar = false;
-      // }
+  onChangeMedico(event){ 
+    if(event.value){  
        this.idMedicoSeleccionado = event.value.idusuario
     }else{
       this.horariosGenerados = []; 
@@ -108,9 +105,7 @@ export class CrearDiasAtencionComponent implements OnInit {
         this.horariosGenerados.push({
           idusuariodoctor : this.idMedicoSeleccionado,
           diaatencion : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA),
-          nombredia : nombreDia,
-          // horainicio :   this.dateFormat.transform(fechaInicioSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
-          // horafin :  this.dateFormat.transform(fechafinSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          nombredia : nombreDia, 
           horainicio : new Date(fechaInicioSumada), 
           horafin :  new Date( fechafinSumada )
         }) 
@@ -120,9 +115,7 @@ export class CrearDiasAtencionComponent implements OnInit {
         this.horariosGenerados.push({
           idusuariodoctor : this.idMedicoSeleccionado,
           diaatencion : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_BUSQUEDA),
-          nombredia : nombreDia,
-          // horainicio : this.dateFormat.transform(dataform.FechaAtencion, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
-          // horafin : this.dateFormat.transform(fechafinSumada, ConstantesGenerales._FORMATO_FECHA_Y_HORA_BD),
+          nombredia : nombreDia, 
           horainicio :  new Date(dataform.FechaAtencion),
           horafin : new Date(fechafinSumada)
         }) 
@@ -145,8 +138,9 @@ export class CrearDiasAtencionComponent implements OnInit {
     this.horariosGenerados = [];
     this.mostrarTablaGenerar = false;
   }
-
-
  
+  onCancelar(){
+    this.router.navigate(['/modulos/home/cita'])  
+  }
 
 }

@@ -7,9 +7,7 @@ import { HomeComponent } from 'src/app/Modulos/home/home.component';
 import { MenuService } from '../../services/app.menu.service';
 
 @Component({
-    /* tslint:disable:component-selector */
-    selector: '[app-menuitem]',
-    /* tslint:enable:component-selector */
+    selector: '[app-menuitem]', 
     template: `
          <ng-container>
             <div *ngIf="root && item.visible !== false">
@@ -73,22 +71,21 @@ import { MenuService } from '../../services/app.menu.service';
 export class AppMenuitemComponent implements OnInit, OnDestroy {
 
     @Input() item: any;
-
     @Input() index: number;
-
     @Input() root: boolean;
-
     @Input() parentKey: string;
 
     active = false;
-
     menuSourceSubscription: Subscription;
-
     menuResetSubscription: Subscription;
-
     key: string;
 
-    constructor(public app: HomeComponent, public router: Router, private cd: ChangeDetectorRef, private menuService: MenuService) {
+    constructor(
+        public app: HomeComponent, 
+        public router: Router, 
+        private cd: ChangeDetectorRef, 
+        private menuService: MenuService
+    ){
         this.menuSourceSubscription = this.menuService.menuSource$.subscribe(key => {
             // deactivate current active menu
             if (this.active && this.key !== key && key.indexOf(this.key) !== 0) {
@@ -118,7 +115,6 @@ export class AppMenuitemComponent implements OnInit, OnDestroy {
         if (!this.app.isHorizontal() && this.item.routerLink) {
             this.updateActiveStateFromRoute();
         }
-
         this.key = this.parentKey ? this.parentKey + '-' + this.index : String(this.index);
     }
 

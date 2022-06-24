@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { IUsuario } from 'src/app/Auth/interface/auth.interface'; 
 import { LoginService } from 'src/app/Auth/services/login.service';
 import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
@@ -20,17 +21,19 @@ export class UsuariosComponent implements OnInit {
   DataUsuarioEdit : IUsuario;
   arrayUsuarios : IUsuario[]; 
   idUsuarioBuscar : number = 0 ;
+  usuarioSelecionado : boolean = true;
 
   constructor(
     private swal : MensajesSwalService, 
     private apiService: DoctorService,
     private usuarioService : LoginService, 
+    private router : Router, 
   ) {
     this.builform();  
    }
 
    private builform(): void {
-    this.Form = new FormGroup({  
+    this.Form = new FormGroup({    
       usuario: new FormControl(null, Validators.required), 
       nombres: new FormControl(null, Validators.required),  
       apellidoPaterno: new FormControl(null, Validators.required), 
@@ -57,23 +60,23 @@ export class UsuariosComponent implements OnInit {
     });
   }
 
-  onSeleccionarUsuario(event: any){ 
-    if(event.value){
-      this.idUsuarioBuscar = event.value.idusuario;
-    //  this.onDatosPorIdUsuario();
-    }else{
+  onSeleccionarUsuario(event: any){  
+    if(event){
       this.DataUsuarioEdit = null
+      this.idUsuarioBuscar = event.idusuario; 
+      this.usuarioSelecionado = false
+    }else{
+      this.DataUsuarioEdit = null;
+      this.usuarioSelecionado = true;
     }
   }
- 
-
+  
   onDatosPorIdUsuario(){ 
     this.swal.mensajePreloader(true);
     this.apiService.getUsuarioId(this.idUsuarioBuscar).subscribe((resp) => { 
       if(resp){   
         this.DataUsuarioEdit = resp
-        this.Form.patchValue({ 
-          idusuaio : this.DataUsuarioEdit.idusuario,
+        this.Form.patchValue({  
           usuario: this.DataUsuarioEdit.usuario,
           nombres: this.DataUsuarioEdit.nombres,
           apellidoPaterno: this.DataUsuarioEdit.apellidoPaterno,
@@ -85,8 +88,7 @@ export class UsuariosComponent implements OnInit {
           direccion: this.DataUsuarioEdit.direccion,
           correo: this.DataUsuarioEdit.correo,
           telefono: this.DataUsuarioEdit.telefono, 
-          isadmin: this.DataUsuarioEdit.isadmin,
-          isdoctor: this.DataUsuarioEdit.isdoctor,
+          isadmin: this.DataUsuarioEdit.isadmin, 
           password : this.DataUsuarioEdit.password,
           pass: this.DataUsuarioEdit.pass, 
         })
@@ -103,26 +105,30 @@ export class UsuariosComponent implements OnInit {
   onGuardar(){   
     const dataform = this.Form.value;
     const data : IUsuario = {
-      idusuario : dataform.idusuario,
+      idusuario :this.DataUsuarioEdit.idusuario,
       usuario: dataform.usuario,
       nombres: dataform.nombres,
       apellidoPaterno: dataform.apellidoPaterno,
       apellidoMaterno: dataform.apellidoMaterno, 
       fechaNacimiento: dataform.fechaNacimiento, 
-      nombrecompleto : dataform.nombres + ' ' + dataform.apellidoPaterno + ' ' + dataform.apellidoMaterno, 
-      sexo: dataform.sexo.codigo, 
-      direccion: dataform.direccion, 
-      correo: dataform.correo, 
-      telefono: dataform.telefono, 
-      password: dataform.password, 
-      pass: dataform.password, 
+      nombrecompleto : dataform.nombres + ' ' + dataform.apellidoPaterno + ' ' + dataform.apellidoMaterno,
+      sexo: dataform.sexo.codigo,
+      direccion: dataform.direccion,
+      correo: dataform.correo,
+      telefono: dataform.telefono,
+      password: this.DataUsuarioEdit.pass, 
+      pass: this.DataUsuarioEdit.pass,
       isadmin : dataform.isadmin,
-      isdoctor : dataform.isdoctor, 
+      isdoctor : this.DataUsuarioEdit.isdoctor,
     }  
  
     this.usuarioService.crearUsuario(data).subscribe((resp)=> {
       if(resp){
-        this.swal.mensajeExito('Datos actualizados correctamente');   
+        this.swal.mensajeExito('Cambios realizados exitosamente!.');   
+        this.DataUsuarioEdit = null; 
+        this.arrayUsuarios = null;
+        this.onCargarUsuarios(); 
+        this.usuarioSelecionado = true;
       }
     }, error => {
       this.swal.mensajeError(error);  
@@ -153,6 +159,12 @@ export class UsuariosComponent implements OnInit {
      }
     }
     
+
+
+     
+  onCancelar(){ 
+    this.router.navigate(['/modulos/home/cita'])  
+  }
  
     
 }

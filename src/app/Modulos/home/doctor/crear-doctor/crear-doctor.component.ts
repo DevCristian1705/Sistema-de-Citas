@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 import { PrimeNGConfig } from 'primeng/api';
 import { IUsuario } from 'src/app/Auth/interface/auth.interface';
 import { ConstantesGenerales } from 'src/app/Shared/interfaces/shared.interfaces';
@@ -22,7 +23,8 @@ export class CrearDoctorComponent implements OnInit {
   constructor(
     private swal : MensajesSwalService, 
     private apiService : DoctorService,
-    private config : PrimeNGConfig
+    private config : PrimeNGConfig,
+    private router : Router
   ) {
     this.builform(); 
    }
@@ -106,5 +108,9 @@ export class CrearDoctorComponent implements OnInit {
     }
     
  
+     
+  onCancelar(){
+    this.router.navigate(['/modulos/home/cita'])  
+  }
     
 }

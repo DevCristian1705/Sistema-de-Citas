@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';   
+import {Component} from '@angular/core';   
 import { LoginService } from 'src/app/Auth/services/login.service';
 import { HomeComponent } from 'src/app/Modulos/home/home.component'; 
 
@@ -6,16 +6,12 @@ import { HomeComponent } from 'src/app/Modulos/home/home.component';
     selector: 'app-topbar',
     templateUrl: './app-topbar.component.html',
     styleUrls: ['./app.topbar.component.scss'],
-  
 })
-export class AppTopBarComponent {
- 
-  @Output() mPredeterminado: EventEmitter<any> = new EventEmitter<any>(); 
- 
+export class AppTopBarComponent { 
   usuariologeado: string ="Usuario";
   rolUsuario : string= "Cliente";
   dataDesencryptada : any;
- 
+
   constructor(
       public appMain: HomeComponent,  
       private loginService : LoginService, 
@@ -32,7 +28,7 @@ export class AppTopBarComponent {
   }
  
   onLogout(){
-      this.loginService.logout();
+    this.loginService.logout();
   }
  
 
