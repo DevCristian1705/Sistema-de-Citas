@@ -46,3 +46,71 @@
     border-radius: 15px;
     color: white
 }
+
+::ng-deep .p-calendar{
+  width: 70%;
+  @media (max-width: 700px) {   
+    width: 80%;
+  }
+}
+
+
+.formulario{
+  display: grid; 
+  grid-template-columns: 7rem 14rem 7rem 14rem;
+  align-items: center;
+  justify-content: center;
+  @media (max-width: 700px) {   
+    grid-template-columns: 7rem 12rem;
+  } 
+}
+ 
+
+/*GRAFICOS*/
+  
+.Circulo {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%; 
+  margin: 20px;
+  margin-left: 100px; 
+  font-size: 2em;
+  padding: 20%;
+
+  @media (max-width: 700px) {   
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
+    margin: 20px;
+    margin-left: 70px;
+    font-size: 1.8em;
+    padding: 20%;
+  }
+
+
+  .Circulo2 {
+    width: 110px;
+    height: 110px;
+    border-radius: 50%;
+    margin-top: -55px;
+    margin-left: -55px;
+    color: #212020;
+    font-size: 2.5em;
+    padding: 20%;
+    background: white;
+
+    @media (max-width: 700px) {   
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      margin-top: -40px;
+      margin-left: -40px;
+      color: #212020;
+      font-size: 2em;
+      padding: 20%;
+      background: white;
+    }
+
+  }
+
+}

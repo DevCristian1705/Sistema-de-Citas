@@ -329,20 +329,13 @@ export class CrearCitaComponent implements OnInit {
     } 
   }
 
-  onPagoCitaConfirmada(){
-    
-    // if(this.FormPago.controls['fechavencimiento'].value < this.fechaActual){
-    //   this.swal.mensajeAdvertencia('La fecha de vencimiento no puedes ser menor a la fecha actual');
-    //   return;
-    // }
-
-    console.log('fecha vencimiento', this.FormPago.value);
-    // this.swal.mensajePregunta('¿Seguro de realizar el pago de la cita?').then((response) => { 
-    //   if(response.isConfirmed) { 
-    //     this.idEstadoCitaSeleccionado = 2
-    //     this.onGrabarCita();
-    //   }  
-    // }) 
+  onPagoCitaConfirmada(){ 
+    this.swal.mensajePregunta('¿Seguro de realizar el pago de la cita?').then((response) => { 
+      if(response.isConfirmed) { 
+        this.idEstadoCitaSeleccionado = 2
+        this.onGrabarCita();
+      }  
+    }) 
   }
     
   onGrabarCita(){    
